@@ -1,0 +1,285 @@
+\documentclass[a4paper,12.15pt,CJK,oneside]{cctbook}
+\def\allfiles{}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{titlesec,cctspace}
+\usepackage{cite}
+\usepackage{enumerate}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{dsfont, amsthm, amssymb}
+\usepackage{times}
+\usepackage{tabularx}
+\usepackage{longtable, booktabs}
+\usepackage{color}
+
+
+\setlength{\textheight}{24true cm} \setlength{\textwidth}{17true cm}
+\oddsidemargin -10pt \evensidemargin -10pt \topmargin -5pt \footskip 0.8 cm
+\setlength{\parindent}{2\ccwd}%自然段第一行缩进量
+ \setlength{\parskip}{0pt}
+ \usepackage{geometry}
+ \headsep -1 cm \topmargin -25 pt \textheight 26 cm \textwidth 16cm
+ \oddsidemargin 23pt\evensidemargin 23pt
+
+\renewcommand{\baselinestretch}{1.3}%行间距
+\renewcommand \theequation{\thesection.\arabic{equation}}
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}     % 字号设置
+\newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont} % 字号设置
+\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}      % 字号设置
+\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}      % 字号设置
+\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}  % 字号设置
+\newcommand{\sanhao}{\fontsize{15.75pt}{\baselineskip}\selectfont}
+\newcommand{\xiaosanhao}{\fontsize{15pt}{\baselineskip}\selectfont} % 字号设置
+\newcommand{\sihao}{\fontsize{13pt}{\baselineskip}\selectfont}      % 字号设置
+\newcommand{\xiaosihao}{\fontsize{12.15pt}{\baselineskip}\selectfont}  % 字号设置
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    % 字号设置
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   % 字号设置
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}  % 字号设置
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    % 字号设置
+\renewcommand{\chaptername}{~\thechapter~}
+\renewcommand{\sectionname}{~\thesection~}
+\renewcommand{\subsectionname}{~\thesubsection~}   % 使得每一小节下面的编号无间隙
+\usepackage{fancyhdr}
+\usepackage{amsthm,amsmath,amssymb,fancyhdr,color,graphicx}
+\newcommand{\hh}{\hspace*{24 pt}}
+\newcommand{\h}{\hspace*{6 pt}}
+\newcommand{\ho}{\hspace*{3 pt}}
+\newcommand{\hi}{\hspace*{4 pt}}
+\newcommand{\hhh}{\hspace*{96 pt}}
+\newcounter{rom}
+\newcommand{\rR}{I \hspace*{-1.2mm} R}
+\newcommand{\xd}[1]{\setcounter{rom}{#1}{\rm(\roman{rom})}}
+\newcommand{\Xd}[1]{\setcounter{rom}{#1}{\rm\Roman{rom}}}
+\titlespacing{\chapter}{0pt}{*-1}{*4}
+\titlespacing{\section}{0pt}{*1}{*1}
+\titlespacing{\subsection}{0pt}{*1}{*1}
+\titleformat{\chapter}[hang]{\centering\sanhao\bfseries}{\chaptername}{0em}{}
+\titleformat{\section}[hang]{\xiaosanhao\bfseries}{\sectionname}{0em}{}
+\titleformat{\subsection}[hang]{\sihao\bfseries}{\subsectionname}{0.5em}{}
+
+
+
+\newcommand{\chap}[1]{\chapter{#1}\fancyhead[RE]{\chaptername\quad
+#1}\fancyhead[LO]{\rightmark}}
+\renewcommand{\proofname}{\textbf{证明}}
+\newtheoremstyle{mystyle}{3pt}{3pt}{\songti}{0cm}{\heiti}{}{1em}{}
+\theoremstyle{mystyle}
+\newtheorem{theorem}{\indent 定理}[section]   % 使得定理首行缩进
+\newtheorem{example}{\indent 例}[section]
+\newtheorem{remark}{\indent 注}[section]
+\newtheorem{lemma}{\indent 引理}[section]
+\newtheorem{definition}{\indent 定义}[section]
+\newtheorem{proposition}{\indent 命题}[section]
+\renewcommand{\proofname}{\indent 证明}
+\allowdisplaybreaks
+\makeatletter
+\AtBeginDvi{\input{zhwinfonts}}
+\def\@dotsep{2}
+\makeatletter
+
+\def\@bfdottedtocline#1#2#3#4#5{%
+\ifnum #1>\c@tocdepth \else
+  \vskip \z@ \@plus.2\p@
+  {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\rightskip
+   \parindent #2\relax\@afterindenttrue
+   \interlinepenalty\@M
+   \leavevmode \bfseries
+   \@tempdima #3\relax
+   \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+   {#4}\normalfont\nobreak
+   \leaders\hbox{$\m@th
+      \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+      mu$}\hfill
+   \nobreak
+   \hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor #5}%
+   \par}%
+\fi}
+\renewcommand*\l@chapter{\@bfdottedtocline{0}{0em}{1.5em}}
+
+
+\makeatother
+\includeonly{chapter1,chapter2,chapter3,chapter4,chapter5,chapter6}
+ \begin{document}
+\sloppy \baselineskip 20 pt  \pagestyle{fancy}
+\fancyhead{}
+\thispagestyle{fancy} \fancyhead[OC]{\songti \small}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headrulewidth}{0pt}
+\frontmatter
+\include{toc}
+\mainmatter
+
+\thispagestyle{empty}
+ \vskip 8cm
+ \quad\\
+ \quad\\
+ \centerline{\heiti\xiaoerhao 重庆师范大学硕士学位论文} \vskip2cm
+ \begin{center}
+ \heiti\erhao 基于深度学习的本体匹配方法及其\\优化算法研究
+
+ \end{center}
+ \vskip 6cm
+ \begin{center}
+ \begin{eqnarray*}
+&\textrm{ \heiti\sanhao 硕士研究生：}&\textrm{ \heiti\sanhao 段旭祥}\\
+&\textrm{ \heiti\sanhao 指~导~教~师：}&\textrm{ \heiti\sanhao 吴至友}\quad\textrm{ \heiti\sanhao 教授}\\
+&\textrm{ \heiti\sanhao 学~科~专~业：}&\textrm{ \heiti\sanhao 计算数学}\\
+&\textrm{ \heiti\sanhao 所~在~学~院：}&\textrm{ \heiti\sanhao 数学科学学院}
+\end{eqnarray*}
+ \end{center}
+ \vskip4cm\centerline{\heiti\xiaoerhao 重庆师范大学} \vskip 1cm
+ \centerline{\heiti\sanhao 2020 年 5 月}
+ \newpage
+ \thispagestyle{empty}
+ \topskip 64pt
+ \begin{center}
+ \xiaoerhao
+ A Thesis Submitted to Chongqing Normal University in
+ Partial Fulfillment of the Requirements for the Degree of Master
+ \end{center}
+
+ \vskip 2cm
+
+ \begin{center}
+ \bf\erhao Research on ontology alignment method and optimization algorithm based on deep learning
+
+ \end{center}
+ \vskip 4cm
+ \begin{eqnarray*}
+ % \nonumber to remove numbering (before each equation)
+ & &\text{\sanhao Candidate：DUAN Xuxiang} \\
+ & &\text{\sanhao Supervisor：Professor Wu Zhiyou} \\
+ & &\text{\sanhao Major：Computational Mathematics} \\
+ & &\text{\sanhao College：School of Mathematical Sciences}
+ \end{eqnarray*}
+ \vskip 3cm
+
+ \begin{center}
+ \xiaoerhao Chongqing Normal University
+ \end{center}
+ \begin{center}
+ \sanhao May,  2020
+ \end{center}
+
+\setcounter{page}{0}
+\newpage
+\pagestyle{plain}
+\sloppy \baselineskip 20pt \pagestyle{fancy}
+\fancyhead{}
+\topskip 54pt
+ \thispagestyle{fancy} \fancyhead[L]{\songti \wuhao
+重庆师范大学硕士学位论文} \fancyhead[R]{\songti \wuhao  中文摘要}
+\renewcommand{\headrulewidth}{0.8pt}
+\addcontentsline{toc}{chapter}{\numberline{中文摘要}}
+
+ \pagenumbering{Roman} \topskip 54pt
+ \quad\\
+\renewcommand{\baselinestretch}{1}
+ \centerline{\bf\Large\heiti\zihao{3} 基于深度学习的本体匹配方法及其优化算法研究}
+ \vskip 1.5cm \centerline{\heiti \sanhao 摘\quad 要} \vskip 1cm
+ {\songti\xiaosihao
+
+
+ \vskip 2cm {\heiti\xiaosihao
+\noindent 关键词：} {\songti\xiaosihao }
+\newpage
+ \thispagestyle{fancy} \fancyhead[L]{\songti \small
+ 重庆师范大学硕士学位论文} \fancyhead[R]{\songti \small  英文摘要}
+ \renewcommand{\headrulewidth}{0.8pt}
+\addcontentsline{toc}{chapter}{\numberline {英文摘要}}
+
+ \vskip 54pt
+ \quad\\
+
+  \centerline{\bf\sanhao Research on ontology alignment method and optimization algorithm}
+  \centerline{\bf\sanhao   based on deep learning}
+ \vskip 1.5cm
+ \centerline{\bf\sanhao ABSTRACT} \vskip 1cm {\xiaosihao
+
+
+} \vskip 1cm
+\noindent{\bf \sanhao  Keywords:} {\sihao  }
+
+
+
+\newpage
+
+\tableofcontents
+\thispagestyle{fancy} \fancyhead[L]{\songti \small
+ 重庆师范大学硕士学位论文} \fancyhead[R]{\songti \small  目录}
+
+\newpage
+
+ \setcounter{page}{1}
+ \pagenumbering{arabic}
+\include{chapter1}
+\include{chapter2}
+\include{chapter3}
+\include{chapter4}
+\include{chapter5}
+\include{chapter6}
+
+
+\newpage
+\renewcommand{\baselinestretch}{1}
+\topskip 35pt\chapter*{\heiti\sanhao 致\quad谢 }
+\addcontentsline{toc}{chapter}{\numberline {致谢}}
+\thispagestyle{fancy} \fancyhead[L]{\songti \small
+重庆师范大学硕士学位论文} \fancyhead[R]{\songti \small 致谢}
+\vskip 0.5cm\songti\zihao{-4} 	
+
+
+
+值此论文完成之际，我由衷地感谢我的导师吴至友教授。从我读硕士开始已经将近三年时间，这期间吴老师在学习上给予了我极大的帮助和鼓励，在我的学业和论文的研究工作中无不倾注着导师辛勤的汗水和心血。吴老师渊博的知识、严谨的治学态度、一丝不苟的工作作风和无私的奉献精神都影响并激励着我。能够成为吴老师的学生是我人生中的一件幸事！同时也非常感谢杜学武教授对我的指导和帮助，杜老师锐意进取的精神、豁达的胸襟、乐观的心态都是我今后需要不断学习的。感谢白富生教授，白老师对人真诚、热情，我的进步也离不开白老师的关心和帮助。感谢李国权教授在我对硕士期间对我的帮助，不论是科研方面的合作还是生活上的相处都是非常愉
+快的事情。感谢院系领导老师对我的支持和帮助。
+
+衷心感谢东南大学漆桂林教授，对我的关心和帮助。漆老师为人十分谦逊，对人热情。在我研究生期间漆老师给予了我很多的帮助，在此对他表示衷心的感谢！
+特别感谢高桓博士，高桓博士待人真诚，做事严谨。在我研究生期间给予我思想上，科研态度，以及方法上的指导，在此对他表示真心的感谢！也感谢李炜卓博士，李炜卓博士为人实在，踏实，在我研究生期间，引导我踏入了知识图谱相关研究，在此对他表示衷心的感谢。
+
+感谢在学习和生活上给予我关心、鼓励的同门学们。
+
+最后我要感谢我的父母、爱人和家人对我的理解和支持！
+
+
+\begin{center}
+\quad\quad\quad\quad\quad\qquad \quad\quad\quad\quad\qquad \quad\quad\quad\quad\qquad 段旭祥
+\end{center}
+ \begin{center}
+\quad\quad\quad\quad\qquad \quad\quad\quad\quad\qquad \quad\quad\quad\quad\qquad\quad 2020 年 5 月 6 日
+ \end{center}
+
+
+
+\newpage
+\thispagestyle{empty}
+\begin{center}
+\heiti\erhao 独 创 性 声 明
+\end{center}
+
+\songti\sihao{本人声明所呈交的学位论文是本人在导师指导下进行的研究工作及取得的研究成果。除了文中特别加以标注和致谢的地方外，
+论文中不包含他人已经发表或撰写过的研究成果，也不包含为获得
+\underline{重庆师范大学}
+或其他教育机构的学位或证书而使用过的材料。与我一同工作的同志对本研究所做的任何贡献均已在论文中作了明确的说明。}
+
+\vskip 1cm 学位论文者签名：  \hfill    签字日期：\quad   年 \quad 月
+\quad 日
+
+\vskip 2cm
+\begin{center} \heiti\erhao 学位论文版权使用授权书
+\end{center}
+
+{\songti\sihao 本学位论文作者完全了解\underline{重庆师范大学}有关保留、使用学位论文的规定，有权保留并向国家有关部门或机构送交论文的复印件和磁盘，
+允许论文被查阅和借阅。本人授权
+\underline{重庆师范大学}可以将学位论文的全部或部分内容编入有关数据库进行检索，可以采用影印、缩印或扫描等复制手段保存、汇编学位论文。}
+
+\vskip 1cm
+ \songti\sihao{学位论文作者签名：  \hfill 签字日期：\quad
+年 \quad 月 \quad 日\quad }
+
+\backmatter \printindex
+\end{document}
+
+% ----------------------------------------------------------------
