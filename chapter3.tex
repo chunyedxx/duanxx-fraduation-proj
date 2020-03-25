@@ -8,13 +8,13 @@
 \thispagestyle{fancy} \fancyhead[L]{\songti \wuhao
 重庆师范大学硕士学位论文}\fancyhead[R]{\songti \wuhao 3~预备知识}
  \songti\xiaosihao{本章主要介绍本文研究内容中所涉及的先验知识及相关概念，主要包括：知识图谱表示学习模型，“黑箱”优化问题，HORD算法，BERT模型}
- 
+
 \section{知识图谱表示学习模型}
 \subsection{知识图谱表示学习}
 {\songti\xiaosihao 深度学习技术作为人工智能领域的核心技术之一，被广泛应用于机器视觉，语音识别，自然语言处理等众多领域。深度学习实现了数据的分布式表示，采用稠密的低维实值向量来表示数据的含义，而表示学习正是实现这类表示的方法。表示学习，是对数据表征的学习，它从数据中提取有用的信息，以便于构建机器学习模型\cite{rl}，表示学习的发展也影响了知识图谱的表示形式，从而产生了知识图谱表示学习（也可称为知识表示学习）。知识图谱表示学习旨在将知识图谱中的实体和关系借助模型的学习表示成低维实值向量，进而通过向量之间的关系来描述实体之间的语义关联。}
 \\
 \subsection{知识图谱表示学习模型}
-{\songti\xiaosihao 本节重点介绍本文研究内容中涉及的若干种知识图谱表示学习方法。按是否引入额外信息为区分标准，知识图谱表示学习方法可分为仅利用三元组的方法和引入额外信息的方法\cite{}，表示学习模型众多，本节主要介绍本文用到的仅利用三元组的方法，仅利用三元组的方法又包括基于转移距离的方法和基于语义匹配的方法，基于转移距离的方法有TransE\cite{transe},TransH\cite{transh},TransR\cite{transr},TransD\cite{transd}等，基于语义匹配的方法有DistMult\cite{dist},ComplEx\cite{comp},Conve\cite{conv}等。接下来以TransE,TransH,TransR 为例，进行介绍。
+{\songti\xiaosihao 本节重点介绍本文研究内容中涉及的若干种知识图谱表示学习方法。按是否引入额外信息为区分标准，知识图谱表示学习方法可分为仅利用三元组的方法和引入额外信息的方法\cite{wangquan}，表示学习模型众多，本节主要介绍本文用到的仅利用三元组的方法，仅利用三元组的方法又包括基于转移距离的方法和基于语义匹配的方法\cite{wangquan}，基于转移距离的方法有TransE\cite{transe},TransH\cite{transh},TransR\cite{transr},TransD\cite{transd}等，基于语义匹配的方法有DistMult\cite{dist},ComplEx\cite{comp},Conve\cite{conv}等。接下来以TransE,TransH,TransR 为例，进行介绍。
 
 TransE
 
