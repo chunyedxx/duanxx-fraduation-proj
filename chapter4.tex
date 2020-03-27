@@ -14,7 +14,7 @@
 
 \indent \textbf{定义1：}本文采用四元组$({e_i},{e_j},r,\theta )$来表示$0_i$，$0_j$的一组匹配，其中$0_i$和$0_j$表示两个本体，$e_i$，$e_j$分别代表$0_i$ 和$0_j$ 中的实体（实体可以是本体的概念，性质等），r表示两个实体$e_i$，$e_j$之间的关系，在多数本体中，r一般表示$\left\{ { \subseteq , \supseteq , \equiv } \right\}$ 三类关系中的一种。
 
-\indent 在很多本体匹配的实际任务中，匹配系统主要关注具有等价关系（等价关系可以理解为一般的同义词关系）的概念匹配。因此，在本文的剩余部分中，只针对需要获取等价关系的本体匹配任务，本文的模型设计也只注重挖掘领域本体中的存在等价关系的概念对。
+\indent 在很多本体匹配的实际任务中，匹配系统主要关注具有等价关系（等价关系可以理解为一般的同义词关系）的概念匹配。因此，在本文的剩余部分中，只针对需要获取等价关系的本体匹配任务，本文的模型设计也只注重挖掘领域本体中的存在等价关系的概念对。}
 \subsection{MuitiOM}
   {\songti\xiaosihao 现有的工作\cite{xian1,xian2,xian3}表明，采用多视角的方式可以从不同角度获得本体更多的语义信息，并提升相应任务的准确性和稳定性。受以上工作启发，本文采用基于多视角的方法来描述本体匹配的过程，并针对现有方法未充分利用本体结构信息的问题，尝试融入更多的结构信息，来提升匹配效果。
 
@@ -104,46 +104,25 @@ Sim({C_1},{C_2}) = \sum\limits_{i = 1} {{w_i} \cdot \mathop {\arg \max }\limits_
 
 \indent Step3：对可靠匹配进行互评。例如，如果一个可靠匹配属于OM-L，且在OM-SR中的相似性低于阈值${\delta_3}$，则将其删除；同样一个可靠匹配属于OM-SR，且其在OM-L中的相似性低于阈值${\delta_4}$，则删除此匹配。
 
-\indent Step4：对来自OM-L和OM-SR的匹配取并，生成最终匹配。
+\indent Step4：对来自OM-L和OM-SR的匹配取并，生成最终匹配。}
 
 \section{基于HORD算法对MultiOM的改进模型MultiOM+HORD}
-{\songti\xiaosihao MuitiOM模型基于TransE，TransR构建表示学习模型，基于这些表示学习模型得到的概念或者关系的表示非常依赖模型的参数。为进一步获得更好的参数从而改善待匹配概念的表示并提高MuitiOM本体匹配的效果，本节考虑采用HORD算法对MuitiOM中的表示学习的超参数进行优化。
+{\songti\xiaosihao MuitiOM模型分别基于TransE，TransR模型在结构视角模块，外部资源视角模块构建表示学习模型，而无论MuitiOM中的表示学习模型，还是现有的TransE，TransR等表示学习模型得到的概念向量表示都非常依赖模型的参数。MuitiOM中的表示学习模型与TransE，TransH，TransR等模型一样，需调节的超参数包括训练轮数（Epoch），学习率（Learning rate），向量维数（Dimensions），批次数（Nbatchs）,合页损失中$\gamma$的大小，以及负采样率(Negative samping rate)，这些参数既包含整数也包含连续数；同时，模型本身的参数量较大，训练的时间成本也比较高，为进一步获得更好的参数，从而改进待匹配概念的表示并提高MuitiOM本体匹配模型的效果，本节考虑采用HORD算法对MuitiOM中的表示学习的超参数进行优化。
 
-\indent HORD算法较贝叶斯类超参数优化方法，可以更加高效的同时优化整数或连续实数类超参数。MuitiOM中表示学习模型的超参数包括训练轮数（Epoch），学习率，向量维数，批次数（nbatchs）,合页损失中的$\gamma$的大小，以及负采样率，这些参数既包含整数也包含连续数，另外，模型本身的参数量较大，所以HORD 算法是适合用于实现MuitiOM模型超参数优化的方法。
+\indent HORD算法较现有的贝叶斯类超参数优化方法，如GP\cite{},TPE\cite{}等方法，可以以更少的估值代价更加高效的同时优化整数或连续实数类超参数。而MuitiOM中表示学习模型效果依赖于参数的选择，且参数既包含整数也包含连续实数，模型训练的时间成本也较高，而HORD算法较其他方法可以节省估值次数，同时优化整数以及连续实数超参，所以HORD算法是适合用于实现MuitiOM 模型超参数优化的方法。
 
-\indent MuitiOM中的表示学习模型的超参数包括训练轮数（Epoch），学习率，向量维数，批次数（nbatchs）,合页损失中的$\gamma$的大小，以及负采样率。为降低参数调节的计算量，提升模型效率，本文未对以上六种参数都进行优化。首先，MuitiOM中的表示学习模型的参数规模由向量维数，以及负采样率决定，而参数旨在表示本体中概念的语义关系，我们可以根据本体所包含概念的多少，大致确定向量的维数，以及负采样率，保证可以适用于匹配任务即可。所以，MuitiOM中未对这两个参数进行调节；其次，训练轮数（Epoch）根据人工经验得到的值为1000，该参数决定了模型学习时间的长短，为保证参数优化后，可以提升MuitiOM的的效率，我们将其固定为500，通过调节剩余的三个参数，以期望以更高的效率获得当前或优于当前的匹配效果。}\\
-
-\subsection{}
-  {\songti\xiaosihao
-  \begin{figure}[!h]
+\begin{figure}[!h]
 \centering
-\includegraphics[scale=0.6]{framework.png}
-\caption{本文算法框架}
-\label{fig:framework}
+\includegraphics[scale=0.6]{multiomhord.png}
+\caption{MultiOM+HORD算法框架}
+\label{fig:multiomhord}
 \end{figure}
 
-\indent 为实现MuitiOM中的表示学习模型的学习率，批次数（nbatchs）,合页损失中的$\gamma$的大小这三类参数的优化，进一步提升MuitiOM的性能，本文提出了如图\ref{fig:framework}的算法框架。因基于上下文视角的预训练模型采用训练好的词向量，并没有涉及参数优化，所以采用HORD算法对基于外部资源视角的预训练模型以及基于结构视角的模型基于学习率，批次数（nbatchs）,合页损失中的$\gamma$的大小进行参数优化。}\\
-  \subsection{本体匹配评估指标}
-  {\songti\xiaosihao 待完善}\\
+\indent 为实现HORD算法对MuitiOM中的表示学习模型参数的优化，进一步优化概念的向量表示，来提升MuitiOM模型的性能，本节提出了如图\ref{fig:multiomhord}的MultiOM+HORD算法框架。因基于上下文视角的预训练模型采用预训练好的词向量，并没有涉及参数优化，所以HORD算法只针对基于ExterRlModel（外部资源视角的预训练模型）以及基于StructRlModel（结构视角的模型）进行参数优化。MultiOM+HORD实现的主要过程如图所示，与MultiOM 的不同之处在于MultiOM采用经验调节参数，来得到概念的向量表示，来进行匹配任务，而MultiOM+HORD中，采用HORD算法对ExterRlModel模型与StructRlModel模型的超参数进行优化得到优化后的参数，将模型借助优化后的参数训练得到的向量作为概念的表示，进行后续的本体匹配。
 
-\section{基于HORD算法的几类表示学习模型超参数优化的评估结果}
-    {\songti\xiaosihao 待完善}\\
-    \subsection{实验设置}
-        {\songti\xiaosihao 待完善}\\
-    \subsection{预测结果与分析}
-        {\songti\xiaosihao 待完善}\\
-\section{基于多视角的生物医学本体匹配模型--MuitiOM的评估结果}
-    {\songti\xiaosihao 待完善}\\
-    \subsection{实验设置}
-        {\songti\xiaosihao 待完善}\\
-    \subsection{本体匹配结果与分析}
-        {\songti\xiaosihao 待完善}\\
-\section{基于BERT模型和HORD算法对MuitiOM的改进的评估结果}
-    {\songti\xiaosihao 待完善}\\
-    \subsection{实验设置}
-        {\songti\xiaosihao 待完善}\\
-    \subsection{本体匹配结果与分析}
-        {\songti\xiaosihao 待完善}\\
+
+\indent 采用HORD优化MultiOM中表示学习超参实现本体匹配的具体步骤流程如下：以ExterRlModel为例，第一步，设置HORD算法的参数，初始采样点的个数$n_0$，最大迭代步数$N_{max}$，以及确定模型各个参数可行域D；第二步，通过拉丁超立方体采样获得初始点$\( {X_i}\} _{i = 1}^{{n_0}}$列，这里${X_i$表示一组向量，即一组参数；第三步，采用每一组参数${X_i$，以MultiOM中的数据集训练模型ExterRlModel，得到点对${{\rm A}_{{n_0}}} = \{ \{ {X_i},f({X_i})\} _{i = 1}^{{n_0}}$，$f({X_i})$表示模型训练后得到的验证误差值（实际可以是损失，错误率等）；第四步，采用${{\rm A}_{{n_0}}}$ 更新径向基响应面模型；第五步，通过当前响应面模型求得最优点${X_ * }$，再采用参数${X_ * }$训练ExterRlModel模型得到$f({X_ * })$，更新${{\rm A}_{{n_0}}} = {{\rm A}_{{n_0}}} \cup \{ ({X_ * },f({X_ * })\}$；第六步在未达到最大步数$N_{max}$时，重复步骤四至步骤五；最后得到改进后的参数以及概念的向量表示，再采用MultiOM中的匹配方法得到最终的匹配。具体算法过程如下：
+}\\
 
 \ifx\allfiles\undefined
 \end{document}
