@@ -61,9 +61,11 @@ anatomical)·Ö±ð±íÊ¾½âÆÊÑ§±¾ÌåºÍ³ÉÄêÐ¡Êó½âÆÊÑ§±¾Ìå£¬¶þÕß¶¼ÊÇ´¿´âµÄ½âÆÊÑ§±¾ÌåÂÛ£¬¶
 
   \indent     F1       Öµ£º$F1 = \frac{{2 * acc * rec}}{{acc + rec}}$}
 
-\section{»ùÓÚ¶àÊÓ½ÇµÄ±¾ÌåÆ¥ÅäÄ£ÐÍMuitiOMµÄÆÀ¹À½á¹û}
+
 \subsection{ÊµÑé»·¾³}
-    {\songti\xiaosihao ÎªÁËÑéÖ¤MultiOMµÄÓÐÐ§ÐÔ£¬±¾ÎÄÊ¹ÓÃPython½èÖúTensorFlow\footnote{https://www.tensorflow.org/}£¨Ò»ÖÖ·Ç³£Á÷ÐÐµÄÉî¶ÈÑ§Ï°¿ò¼Ü£©À´ÆÀ¹ÀMultiOMÄ£ÐÍµÄÐ§¹û¡£²ÉÓÃOWLAPI\footnote{http://owlapi.sourceforge.net/}£¨ÓÃÓÚ¹ÜÀíOWL±¾ÌåµÄ¹¤¾ß£©±¾Ìå½âÎö¹¤¾ßÀ´»ñµÃ±¾ÌåÐÅÏ¢¡£ÊµÑéÊÇÔÚ¾ßÓÐ64GBÄÚ´æºÍTiTAN XP GPUµÄIntel Xeon E5-2630 V4 CPUµÄ¸öÈË¹¤×÷Õ¾ÉÏ½øÐÐµÄ¡£±¾ÎÄµÄ·½·¨£¬Êý¾Ý¼¯ºÍ½á¹û¿ÉÒ»ÆðÓÉ¸ÃÁ´½Ó\footnote{https://github.com/chunyedxx/MultiOM}ÏÂÔØ¡£}
+{\songti\xiaosihao ÎªÁËÑéÖ¤MultiOMµÄÓÐÐ§ÐÔ£¬±¾ÎÄÊ¹ÓÃPython½èÖúTensorFlow\footnote{https://www.tensorflow.org/}£¨Ò»ÖÖ·Ç³£Á÷ÐÐµÄÉî¶ÈÑ§Ï°¿ò¼Ü£©À´ÆÀ¹ÀMultiOMÄ£ÐÍµÄÐ§¹û¡£²ÉÓÃOWLAPI\footnote{http://owlapi.sourceforge.net/}£¨ÓÃÓÚ¹ÜÀíOWL±¾ÌåµÄ¹¤¾ß£©±¾Ìå½âÎö¹¤¾ßÀ´»ñµÃ±¾ÌåÐÅÏ¢¡£ÊµÑéÊÇÔÚ¾ßÓÐ64GBÄÚ´æºÍTiTAN XP GPUµÄIntel Xeon E5-2630 V4 CPUµÄ¸öÈË¹¤×÷Õ¾ÉÏ½øÐÐµÄ¡£±¾ÎÄµÄ·½·¨£¬Êý¾Ý¼¯ºÍ½á¹û¿ÉÒ»ÆðÓÉ¸ÃÁ´½Ó\footnote{https://github.com/chunyedxx/MultiOM}ÏÂÔØ¡£}
+
+\section{»ùÓÚ¶àÊÓ½ÇµÄ±¾ÌåÆ¥ÅäÄ£ÐÍMuitiOMµÄÆÀ¹À½á¹û}
 
 \subsection{ÊµÑéÉèÖÃ}
 {\songti\xiaosihao ±¾ÎÄÑ¡Ôñ¼¸ÖÖ²ßÂÔÀ´¹¹½¨»ù×¼ÖµÒÔÑéÖ¤MultiOMÄ£ÐÍµÄÓÐÐ§ÐÔ¡£ÒÔÏÂÊÇ±¾ÎÄÊµÑé²ßÂÔµÄ¹¹ÔìÏ¸½Ú£¬ÆäÖÐN´ú±íNormalization£¬¶Ô¸ÅÄî½øÐÐ±ê×¼»¯£»S±íÊ¾Synonym£¬ÀûÓÃÍ¬Òå´Ê´ÊµäÀ©Õ¹µ±Ç°¸ÅÄî£»R±íÊ¾Reference Ontology£¬Ê¹ÓÃµÚÈý·½±¾Ìå¡£
@@ -79,14 +81,15 @@ anatomical)·Ö±ð±íÊ¾½âÆÊÑ§±¾ÌåºÍ³ÉÄêÐ¡Êó½âÆÊÑ§±¾Ìå£¬¶þÕß¶¼ÊÇ´¿´âµÄ½âÆÊÑ§±¾ÌåÂÛ£¬¶
 \indent -StringEquiv-NS£ºÍ¨¹ýÍ¬Òå´ÊµäÀ©Õ¹¸ÅÄîÍ¬Òå´Ê,ÔÙ½øÐÐStringEquiv-NÆ¥Åä¡£
 
 \indent -StringEquiv-NSR£º¶Ô¸ÅÄîµÄ×Ö·û´®±íÊ¾½øÐÐ¹æ·¶»¯ºó£¬½øÐÐStringEquiv-SRÆ¥Åä¡£
+\indent ÎªÍ»³öÎÒÃÇÌá³öµÄ¸º²ÉÑùµÄÐ§¹û£¬ÔÚÄ£¿é±êÇ©»òºÏ²¢±êÇ©ÉÏÌí¼Ó·ûºÅ¡°-¡±±íÊ¾¸ÃÄ£¿éÎ´Åä±¸Õë¶Ô½á¹¹¹ØÏµÁ¿Éí¶¨ÖÆµÄ¸º²ÉÑù¡£
 
-\indent MultiOMÑµÁ·Ê±£¬Ê¹ÓÃËæ»úÌÝ¶ÈÏÂ½µ£¨SGD£©×÷ÎªÓÅ»¯·½·¨£¬³¬²ÎÊýµÄÅäÖÃÈçÏÂËùÊ¾£º¸ÅÄîºÍ¾ØÕóµÄÎ¬¶ÈÉèÖÃÎª${\rm{d=\{ 50,100\}}}$ºÍ$ {{\rm{d}}_M}{\rm{ = }}\{ {\rm{50}} \times {\rm{50}},{\rm{100}} \times {\rm{100}}\}$¡£SGDµÄÅú´ÎÊýÉèÖÃÎª${\rm{Nbatch=\{ 5,10}},20,50\}$¡£Ñ§Ï°ÂÊ$r$¿ÉÑ¡²ÎÊýÓÐ${\rm{\{ 0}}{\rm{.01,0}}{\rm{.02,0}}{\rm{.001\} }}$¡£¶ÔÓÚÃ¿¸öÕýÀý£¬¸º²ÉÑùÂÊ¿ÉÑ¡µÄÓÐ${\rm{\{ 1,3,5,10\} }}$¡£ÑµÁ·µÄÂÖÊý£¨epoch£©ÉèÖÃÎª1000¡£ÔÚ»ùÓÚÉÏÏÂÎÄÄ£¿éÖÐ£¬±¾Ìå¸ÅÄîÖÐµ¥´ÊÏòÁ¿±íÊ¾Ö÷ÒªÀ´×ÔÎÄÏ×\cite{}µÄÁ´½Ó\footnote{https://doi.org/10.5281/zenodo.1173936}£¬ÆäÎ¬ÊýÉèÖÃÎª200¡£ ¶ÔÓÚÒ»Ð©Ã»ÓÐÏòÁ¿±íÊ¾µÄµ¥´Ê£¬ÎÒÃÇ½«ÆäËæ»ú³õÊ¼»¯£¬²¢Âú×ã${\left|{\left|{{t_{1i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$ºÍ${\left|{\left|{{t_{2i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$¡£ÔÚÍâ²¿×ÊÔ´ÊÓ½ÇµÄÄ£¿éÖÐ£¬ÎÒÃÇÊ¹ÓÃTransE\cite{}£¬ConvE\cite{}ºÍÔ¤ÑµÁ·º¯Êý7³õÊ¼»¯µÚÈý·½±¾ÌåÖÐ¸ÅÄîµÄÏòÁ¿±íÊ¾¡£ÔÚËðÊ§º¯Êý7ÖÐ½«$a$ÉèÖÃÎª${\rm{\{ 0}}{\rm{.01,0}}{\rm{.05,0}}{\rm{.10\} }}$£¬ÒÔ¿ØÖÆ¸ÅÄîÏòÁ¿µÄÓïÒå¾àÀë¡£¶ÔÓÚ¸º²ÉÑù²ßÂÔ£¬ÎÒÃÇÀûÓÃ±¾ÌåÖÐ¸ÅÄîµÄ½á¹¹ÐÅÏ¢¡£µ±Õë¶ÔÒ»¸ö¸ÅÄî½øÐÐ¸º²ÉÑùÌæ»»Ê±£¬ÎÒÃÇ²ÎÕÕÕâ¸ö¸ÅÄîµÄ½á¹¹¹ØÏµÐÅÏ¢£¬¸ù¾ÝÊ£Óà¸ÅÄîÓë¸Ã¸ÅÄîµÄ½á¹¹¹ØÏµ½øÐÐÌæ»»¡£¸º²ÉÑùÌæ»»Ê±£¬Óë¸Ã¸ÅÄî´æÔÚ¡°disjointwith¡±¹ØÏµµÄ¸ÅÄîÓÅÏÈ¼¶×î¸ß£¬²¢ÇÒÅÅ³ýÓë¸ÅÄî´æÔÚ¡°SubClassOf¡±¹ØÏµºÍ¡°PartOF¡±¹ØÏµµÄ¸ÅÄî¡£×îºó£¬Í¨¹ý¶àÊÓ½ÇµÄ×éºÏÆ¥Åä²ßÂÔÉú³ÉMultiOM×îÖÕÆ¥Åä½á¹û£¬²¢½«Ïà¹ØãÐÖµÉèÖÃÎª${\delta _1} = 0.8$£¬${\delta _2} = 0.95$, ${\delta _1} = 0.65$, ${\delta _4} = 0.3$¡£
-ÎªÍ»³öÎÒÃÇÌá³öµÄ¸º²ÉÑùµÄÐ§¹û£¬ÔÚÄ£¿é±êÇ©»òºÏ²¢±êÇ©ÉÏÌí¼Ó·ûºÅ¡°-¡±±íÊ¾¸ÃÄ£¿éÎ´Åä±¸Õë¶Ô½á¹¹¹ØÏµÁ¿Éí¶¨ÖÆµÄ¸º²ÉÑù¡£}\\
+
+\indent MultiOMÑµÁ·Ê±£¬Ê¹ÓÃËæ»úÌÝ¶ÈÏÂ½µ£¨SGD£©×÷ÎªÓÅ»¯·½·¨£¬³¬²ÎÊýµÄÅäÖÃÈçÏÂËùÊ¾£º¸ÅÄîºÍ¾ØÕóµÄÎ¬¶ÈÉèÖÃÎª${\rm{d=\{ 50,100\}}}$ºÍ$ {{\rm{d}}_M}{\rm{ = }}\{ {\rm{50}} \times {\rm{50}},{\rm{100}} \times {\rm{100}}\}$¡£SGDµÄÅú´ÎÊýÉèÖÃÎª${\rm{Nbatch=\{ 5,10}},20,50\}$¡£Ñ§Ï°ÂÊ$r$¿ÉÑ¡²ÎÊýÓÐ${\rm{\{ 0}}{\rm{.01,0}}{\rm{.02,0}}{\rm{.001\} }}$¡£¶ÔÓÚÃ¿¸öÕýÀý£¬¸º²ÉÑùÂÊ¿ÉÑ¡µÄÓÐ${\rm{\{ 1,3,5,10\} }}$¡£ÑµÁ·µÄÂÖÊý£¨epoch£©ÉèÖÃÎª1000¡£ÔÚ»ùÓÚÉÏÏÂÎÄÄ£¿éÖÐ£¬±¾Ìå¸ÅÄîÖÐµ¥´ÊÏòÁ¿±íÊ¾Ö÷ÒªÀ´×ÔÎÄÏ×\cite{}µÄÁ´½Ó\footnote{https://doi.org/10.5281/zenodo.1173936}£¬ÆäÎ¬ÊýÉèÖÃÎª200¡£ ¶ÔÓÚÒ»Ð©Ã»ÓÐÏòÁ¿±íÊ¾µÄµ¥´Ê£¬ÎÒÃÇ½«ÆäËæ»ú³õÊ¼»¯£¬²¢Âú×ã${\left|{\left|{{t_{1i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$ºÍ${\left|{\left|{{t_{2i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$¡£ÔÚÍâ²¿×ÊÔ´ÊÓ½ÇµÄÄ£¿éÖÐ£¬ÎÒÃÇÊ¹ÓÃTransE\cite{}£¬ConvE\cite{}ºÍÔ¤ÑµÁ·º¯Êý7³õÊ¼»¯µÚÈý·½±¾ÌåÖÐ¸ÅÄîµÄÏòÁ¿±íÊ¾¡£ÔÚËðÊ§º¯Êý7ÖÐ½«$a$ÉèÖÃÎª${\rm{\{ 0}}{\rm{.01,0}}{\rm{.05,0}}{\rm{.10\} }}$£¬ÒÔ¿ØÖÆ¸ÅÄîÏòÁ¿µÄÓïÒå¾àÀë¡£¶ÔÓÚ¸º²ÉÑù²ßÂÔ£¬ÎÒÃÇÀûÓÃ±¾ÌåÖÐ¸ÅÄîµÄ½á¹¹ÐÅÏ¢¡£µ±Õë¶ÔÒ»¸ö¸ÅÄî½øÐÐ¸º²ÉÑùÌæ»»Ê±£¬ÎÒÃÇ²ÎÕÕÕâ¸ö¸ÅÄîµÄ½á¹¹¹ØÏµÐÅÏ¢£¬¸ù¾ÝÊ£Óà¸ÅÄîÓë¸Ã¸ÅÄîµÄ½á¹¹¹ØÏµ½øÐÐÌæ»»¡£¸º²ÉÑùÌæ»»Ê±£¬Óë¸Ã¸ÅÄî´æÔÚ¡°disjointwith¡±¹ØÏµµÄ¸ÅÄîÓÅÏÈ¼¶×î¸ß£¬²¢ÇÒÅÅ³ýÓë¸ÅÄî´æÔÚ¡°SubClassOf¡±¹ØÏµºÍ¡°PartOF¡±¹ØÏµµÄ¸ÅÄî¡£×îºó£¬Í¨¹ý¶àÊÓ½ÇµÄ×éºÏÆ¥Åä²ßÂÔÉú³ÉMultiOM×îÖÕÆ¥Åä½á¹û£¬²¢½«Ïà¹ØãÐÖµÉèÖÃÎª${\delta _1} = 0.8$£¬${\delta _2} = 0.95$, ${\delta _1} = 0.65$, ${\delta _4} = 0.3$¡£}\\
 
 \subsection{Ô¤²â½á¹ûÓë·ÖÎö}
 {\songti\xiaosihao ±í\ref{tab:result1}ÁÐ³öÁËMultiOMÒÔ¼°¸÷ÖÖ»ù×¼Æ¥Åä½á¹ûµÄ¶Ô±ÈÍ¼¡£Í¨¹ý¶Ô±È¿ÉÒÔ·¢ÏÖ£¬ºÏ²¢ÕâÐ©²ßÂÔ¿ÉÒÔÌáÉýÆ¥ÅäÊýÁ¿¡£¾¡¹ÜÉÔÎ¢½µµÍÁËÆ¥ÅäµÄ×¼È·ÂÊ£¬µ«×ÜÌåÉÏÒ²¿ÉÒÔÌá¸ßÕÙ»ØÂÊºÍFÖµ¡£Ïà¶Ô¶øÑÔ£¬MultiOM½øÒ»²½Ìá¸ßÁË±È¶ÔµÄÕÙ»ØÂÊºÍFÖµ£¬ÒòÎªÀûÓÃÁË½á¹¹ÐÅÏ¢£¬½øÒ»²½¸Ä½ø¸ÅÄîµÄÏòÁ¿±íÊ¾¿ÉÒÔ»ñÈ¡¸ü¶àÏàËÆµÄ¸ÅÄî²¢·¢ÏÖ¸ü¶àÇ±ÔÚµÄÆ¥Åä£¬ÌØ±ðÊÇ£¬MultiOMµÄÐÔÄÜÓÅÓÚMultiOM-£¬Ö÷ÒªÔ­ÒòÊÇ²ÉÓÃ½á¹¹¹ØÏµÓÐÖúÓÚÇø·Ö¸ÅÄîµÄÏòÁ¿±íÊ¾¡£
 
-\begin{table}
+\begin{table}[!h]
 	\centering
 	\footnotesize
 	\caption{MultiOMÒÔ¼°¸÷ÖÖ»ù×¼Æ¥Åä½á¹ûµÄ¶Ô±ÈÍ¼}
@@ -114,8 +117,6 @@ anatomical)·Ö±ð±íÊ¾½âÆÊÑ§±¾ÌåºÍ³ÉÄêÐ¡Êó½âÆÊÑ§±¾Ìå£¬¶þÕß¶¼ÊÇ´¿´âµÄ½âÆÊÑ§±¾ÌåÂÛ£¬¶
 	\end{tabular}
 \end{table}}
 
-\indent ±í\ref{tab:result2}Õ¹Ê¾ÁËMultiOM·Ö±ð½«²»Í¬ÊÓ½ÇµÄÄ£ÐÍ×éºÏºóµÄÐ§¹û¶Ô±ÈÍ¼¡£×ÜÌå¶øÑÔ£¬½«µÄ²»Í¬ÊÓ½ÇÄ£ÐÍµÄÆ¥Åä½á¹ûºÏ²¢ºó£¬Æ¥ÅäÐ§¹û»á¸üºÃ¡£¶ÔÓÚÉÏÏÂÎÄÊÓ½ÇÄ£Ä£¿é£¬¾ÍFÖµ¶øÑÔ£¬¸Ä½øµÄTF-IDF£¨±íÊ¾ÎªOM-L£©±ÈÔ­Ê¼TF-IDF¸üºÃ£¬ÕâÊÇÒòÎª²ÉÓÃ±íÊ¾Ñ§Ï°·½·¨½«µ¥´Ê±íÊ¾³ÉÏòÁ¿ÐÎÊ½±È×Ö·û´®±íÊ¾¿ÉÒÔÌá¹©¸ü¶àµÄÓïÒåÐÅÏ¢¡£¶ÔÓÚÍâ²¿×ÊÔ´ÊÓ½ÇÇ¶ÈëÄ£¿é£¨³ÆÎªOM-R£©£¬ConvEºÍMuitiOMÖÐÔ¤ÑµÁ·Ä£ÐÍµÃµ½µÄÐ§¹ûÓÅÓÚËæ»ú³õÊ¼»¯µÄÐ§¹û£¬ÒòÎªÕâÁ½ÖÖ·½Ê½¶¼¿ÉÒÔÀûÓÃ±¾ÌåµÄ½á¹¹¹ØÏµÔÚµÃµ½¸üºÃµÄ¸ÅÄî±íÊ¾¡£µ«ÊÇ£¬º¯Êý7Ëù¹¹³ÉµÄÔ¤ÑµÁ·Ä£ÐÍÐèÒª20·ÖÖÓ£¬ConvEÈ´ÐèÒª½«½ü24¸öÐ¡Ê±À´»ñµÃ¸ÅÄîµÄÏòÁ¿±íÊ¾¡£ÖµµÃ×¢ÒâµÄÊÇ£¬TransE²»ºÏÊÊ×÷Îª±¾ÈÎÎñµÄÔ¤ÑµÁ·Ä£ÐÍ¶Ô¸ÅÄî½øÐÐ±íÊ¾¡£Í¨¹ýTransEµÃµ½µÄ±íÊ¾²¢Î´ÄÜ¹»ºÜºÃµÄ·´Ó³¸ÅÄîµÄ½á¹¹ÐÅÏ¢¡£×ÜÌå¶øÑÔ£¬Í¨¹ýÊý¾Ý¶Ô±È¿ÉÖªÔÚ¶àÊÓ½ÇµÄÈý¸öÄ£¿éÖÐÊ¹ÓÃÐÂµÄ¸º²ÉÑù²ßÂÔ£¨¼´OM-S£¬OM-RS18 19£¬MultiOM£©ÓÐÖúÓÚ½øÒ»²½Ìá¸ßÆ¥ÅäµÄ×¼È·ÂÊºÍFÖµ¡£
-
 \begin{table}[!h]
 	\centering
 	\caption{MultiOM·Ö±ð½«²»Í¬ÊÓ½ÇµÄÄ£ÐÍ×éºÏºóµÄÐ§¹û¶Ô±ÈÍ¼}
@@ -138,9 +139,13 @@ anatomical)·Ö±ð±íÊ¾½âÆÊÑ§±¾ÌåºÍ³ÉÄêÐ¡Êó½âÆÊÑ§±¾Ìå£¬¶þÕß¶¼ÊÇ´¿´âµÄ½âÆÊÑ§±¾ÌåÂÛ£¬¶
 	\end{tabular}
 \end{table}
 
-\begin{table}
+\indent ±í\ref{tab:result2}Õ¹Ê¾ÁËMultiOM·Ö±ð½«²»Í¬ÊÓ½ÇµÄÄ£ÐÍ×éºÏºóµÄÐ§¹û¶Ô±ÈÍ¼¡£×ÜÌå¶øÑÔ£¬½«²»Í¬ÊÓ½ÇÄ£ÐÍµÄÆ¥Åä½á¹ûºÏ²¢ºó£¬Æ¥ÅäÐ§¹û»á¸üºÃ¡£¶ÔÓÚÉÏÏÂÎÄÊÓ½ÇÄ£Ä£¿é£¬¾ÍFÖµ¶øÑÔ£¬¸Ä½øµÄTF-IDF£¨±íÊ¾ÎªOM-L£©±ÈÔ­Ê¼TF-IDF¸üºÃ£¬ÕâÊÇÒòÎª²ÉÓÃ±íÊ¾Ñ§Ï°·½·¨½«µ¥´Ê±íÊ¾³ÉÏòÁ¿ÐÎÊ½±È×Ö·û´®±íÊ¾¿ÉÒÔÌá¹©¸ü¶àµÄÓïÒåÐÅÏ¢¡£¶ÔÓÚÍâ²¿×ÊÔ´ÊÓ½ÇÇ¶ÈëÄ£¿é£¨³ÆÎªOM-R£©£¬ConvEºÍMuitiOMÖÐÔ¤ÑµÁ·Ä£ÐÍµÃµ½µÄÐ§¹ûÓÅÓÚËæ»ú³õÊ¼»¯µÄÐ§¹û£¬ÒòÎªÕâÁ½ÖÖ·½Ê½¶¼¿ÉÒÔÀûÓÃ±¾ÌåµÄ½á¹¹¹ØÏµÔÚµÃµ½¸üºÃµÄ¸ÅÄî±íÊ¾¡£µ«ÊÇ£¬º¯Êý7Ëù¹¹³ÉµÄÔ¤ÑµÁ·Ä£ÐÍÐèÒª20·ÖÖÓ£¬ConvEÈ´ÐèÒª½«½ü24¸öÐ¡Ê±À´»ñµÃ¸ÅÄîµÄÏòÁ¿±íÊ¾¡£ÖµµÃ×¢ÒâµÄÊÇ£¬TransE²»ºÏÊÊ×÷Îª±¾ÈÎÎñµÄÔ¤ÑµÁ·Ä£ÐÍ¶Ô¸ÅÄî½øÐÐ±íÊ¾¡£Í¨¹ýTransEµÃµ½µÄ±íÊ¾²¢Î´ÄÜ¹»ºÜºÃµÄ·´Ó³¸ÅÄîµÄ½á¹¹ÐÅÏ¢¡£×ÜÌå¶øÑÔ£¬Í¨¹ýÊý¾Ý¶Ô±È¿ÉÖªÔÚ¶àÊÓ½ÇµÄÈý¸öÄ£¿éÖÐÊ¹ÓÃÐÂµÄ¸º²ÉÑù²ßÂÔ£¨¼´OM-S£¬OM-RS£¬MultiOM£©À´ÈÚÈë¸ü¶àµÄ±¾Ìå½á¹¹ÐÅÏ¢ÓÐÖúÓÚ½øÒ»²½Ìá¸ßÆ¥ÅäµÄ×¼È·ÂÊºÍFÖµ¡£
+
+\indent ±í\ref{tab:result3}ËµÃ÷ÁË²»Í¬ÊÓ½ÇµÄÔ¤ÑµÁ·Ä£ÐÍÐ§¹ûÊÇÏà»¥²¹³äµÄ¡£ÓÉÓÚOM-L¿ÉÒÔ»ñµÃ±ÈÆäËûÓ³Éä¸ü¶àµÄÓ³Éä£¬Òò´ËÓëOM-S£¬OM-R¼°ÆäºÏ²¢µÄÇé¿öÏà±È£¬¿ÉÒÔÕÒµ½¸ü¶àµÄÕýÈ·Ó³Éä£¬Òò´Ë£¬Ò²½øÒ»²½ÑéÖ¤ÁË²ÉÓÃ¶àÊÓ½ÇµÄ·½Ê½À´ÊµÏÖ±¾ÌåÆ¥ÅäÊÇÓÐÐ§µÄ¡£
+
+\begin{table}[!h]
 	\centering
-	\caption{The external correct mappings discovered in each embedding-view module}
+	\caption{MultiOM²»Í¬ÊÓ½ÇµÄÄ£ÐÍÐ§¹û¶Ô±È}
 	\label{tab:result3}
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\hline
@@ -151,18 +156,51 @@ anatomical)·Ö±ð±íÊ¾½âÆÊÑ§±¾ÌåºÍ³ÉÄêÐ¡Êó½âÆÊÑ§±¾Ìå£¬¶þÕß¶¼ÊÇ´¿´âµÄ½âÆÊÑ§±¾ÌåÂÛ£¬¶
 	\end{tabular}
 \end{table}
 
-±í\ref{tab:result3}ËµÃ÷ÁË²»Í¬µÄÇ¶ÈëÊÓÍ¼Ä£¿éÊÇÏà»¥²¹³äµÄ¡£ÓÉÓÚOM-L¿ÉÒÔ»ñµÃ±ÈÆäËûÓ³Éä¸ü¶àµÄÓ³Éä£¬Òò´ËÓëOM-S£¬OM-R¼°ÆäºÏ²¢µÄÇé¿öÏà±È£¬¿ÉÒÔÕÒµ½¸ü¶àµÄÕýÈ·Ó³Éä¡£
-±í4ÁÐ³öÁËMultiOMÓë»ùÓÚÌØÕ÷¹¤³ÌµÄOAEI2018¶¥¼¶ÏµÍ³ºÍ»ùÓÚ±íÊ¾Ñ§Ï°µÄSCBOW+DAE£¨O£©µÄ±È½Ï¡£Ëü±íÃ÷£¬¾ÍF1-measure¶øÑÔ£¬MultiOMµÄ³õ²½½á¹û¿ÉÒÔÓë¼¸ÖÖÓÐÇ°Í¾µÄÆ¥ÅäÏµÍ³£¨ÀýÈçFCAMapXºÍSANOM£©¾ºÕù¡£µ«ÊÇ£¬Óë×î¼ÑÏµÍ³£¨ÀýÈçAMLºÍSCBOW+DAE£¨O£©£©Ïà±È£¬ÈÔÈ»´æÔÚ²î¾à¡£ÎÒÃÇ·ÖÎöÁË»ùÓÚ´Ê·¨µÄÄ£¿éºÍ¼ò»¯µÄ×éºÏ²ßÂÔ¿ÉÄÜ³ÉÎªMultiOMµÄÖ÷ÒªÆ¿¾±¡£µÃÒæÓÚÐð´Ê±í£¨ÀýÈçuMlS£©ºÍÓÅ»¯µÄ×éºÏ²ßÂÔ£¬´ó¶àÊýÅÅÃû¿¿Ç°µÄÏµÍ³¶¼ÄÜ»ñµÃ¸üºÃµÄOMÈÎÎñÐÔÄÜ¡£ÁíÍâ£¬´ó¶àÊýÏµÍ³£¨ÀýÈçAML£¬LogMap£©Ê¹ÓÃ¶ÔÆëµ÷ÊÔ¼¼Êõ£¬ÕâÓÐÖúÓÚ½øÒ»²½Ìá¸ß¶ÔÆëÖÊÁ¿¡£µ«ÊÇÎÒÃÇÔÚµ±Ç°°æ±¾ÖÐÃ»ÓÐ²ÉÓÃÕâÐ©¼¼Êõ¡£ÎÒÃÇ½«ÕâÐ©ÎÊÌâÁôÔÚÎ´À´µÄ¹¤×÷ÖÐ¡£
+\indent ±í\ref{tab:result4}ÁÐ³öÁËMultiOMÓëOAEI2018¶¥¼¶ÏµÍ³ºÍ»ùÓÚ±íÊ¾Ñ§Ï°µÄSCBOW+DAEÄ£ÐÍµÄÐ§¹û±È½Ï¡£Í¨¹ýÊý¾Ý±íÃ÷£¬¾ÍF1-measure¶øÑÔ£¬MultiOMµÄ³õ²½½á¹û¿ÉÒÔÓë¼¸ÖÖÓÐÇ°Í¾µÄÆ¥ÅäÏµÍ³£¨ÀýÈçFCAMapXºÍSANOM£©¾ºÕù¡£µ«ÊÇ£¬Óë×î¼ÑÏµÍ³£¨ÀýÈçAMLºÍSCBOW+DAE£©Ïà±È£¬ÈÔÈ»´æÔÚ²î¾à¡£µ«ÒÔÉÏµÄ¹¤×÷ËµÃ÷£¬¿¼ÂÇ±¾ÌåµÄ½á¹¹ÐÅÏ¢£¬ÒÔ¶àÊÓ½ÇµÄ·½Ê½À´ÊµÏÖ±¾ÌåµÄÆ¥ÅäÊ±¿ÉÐÐµÄ£¬Îª½øÒ»²½Ì½¾¿ÆäÔ­Òò£¬ÎÒÃÇ½øÐÐÁËÏÂÒ»²½ÊµÑé¡£
 }
 
-\section{»ùÓÚHORDËã·¨¶ÔMultiOMµÄ¸Ä½øÄ£ÐÍMultiOM+HORD}
+\begin{table}[!h]
+	\centering
+	\caption{MultiOMÓëOAEI2018¶¥¼¶ÏµÍ³ºÍ»ùÓÚ±íÊ¾Ñ§Ï°µÄSCBOW+DAEÄ£ÐÍµÄÐ§¹û±È½Ï}
+	\label{tab:result4}
+	\footnotesize
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\multirow{2}{*}{Methods} &\multicolumn{5}{c|}{MA-NCI} & \multicolumn{5}{c|}{FMA-NCI-small} \\
+		  &Number & Correct& P &R & F1  &Number & Correct& P &R & F1\\\hline
+		SCBOW + DAE(O) 	& 1399 & 1356   & 0.969  & 0.906 &   0.938
+		& 2282 & 2227  & 0.976 & 0.889    & 0.930 \\\hline
+		LogMapBio   &1550 & 1376  &  0.888& 0.908 & 0.898
+		& 2776  & 2632  & 0.948  & 0.902   & 0.921 \\\hline
+		POMAP++     &1446 &  1329 &  0.919& 0.877 & 0.897
+		&2414  &2363  & 0.979  & 0.814    & 0.889 \\\hline
+		XMap             &1413 &   1312& 0.929 & 0.865&  0.896
+		&2315  & 2262 & 0.977  & 0.783   & 0.869 \\\hline
+		LogMap        & 1387&   1273  & 0.918 & 0.846&   0.880
+        & 2747 & 2593  & 0.944 &  0.897  & 0.920\\\hline
+		SANOM         &1450 & 1287   & 0.888 & 0.844&  0.865
+		& --  & --  & -- & --   & -- \\\hline
+		FCAMapX      & 1274&  1199   & 0.941 & 0.791 &  0.859
+		& 2828 &  2681  & 0.948 & 0.911   & 0.929 \\\hline
+		\textbf{MultiOM}& \textbf{1445} & \textbf{1287}  & \textbf{0.891}  & \textbf{0.849} &  \textbf{0.869}
+		&  \textbf{2330}  & \textbf{2195}  &    \textbf{0.942} &   \textbf{0.817} &   \textbf{0.875} \\\hline
+	\end{tabular}
+\end{table}
+
+\section{»ùÓÚHORDËã·¨¶ÔMultiOMµÄ¸Ä½øÄ£ÐÍMultiOM+HORDµÄÆÀ¹À½á¹û}
 {\songti\xiaosihao ±¾ÎÄÑ¡Ôñ¶àÖÖ²ßÂÔÀ´¹¹½¨»ù×¼ÖµÒÔ½øÒ»²½ÑéÖ¤MultiOM+HORDÄ£ÐÍµÄÓÐÐ§ÐÔ¡£ÒÔÏêÏ¸½éÉÜ±¾ÎÄÊµÑé²ßÂÔµÄ¹¹ÔìÏ¸½Ú£¬ÆäÖÐ£¬»ùÓÚ¶Ô±ÈÊµÑéÖÐ£¬»ùÓÚ×Ö·û´®Àà·½·¨µÄÃû³Æ£¨°üÀ¨£ºStringEquiv£¬StringEquiv-N£¬StringEquiv-S£¬StringEquiv-SR£¬StringEquiv-NS£¬StringEquiv-NSR£©±¾ÎÄÒÀÈ»ÑØÓÃMuitiOMÄ£ÐÍÆÀ¹À½á¹ûÖÐµÄ¼ÇºÅ£¬ÕâÀï²»ÔÙ×¸Êö¡£Í¬Ñù£¬ÔÚMuitiOMÄ£ÐÍ»ù´¡ÉÏ£¬±¾ÎÄ¶Ô»ùÓÚÍâ²¿×ÊÔ´ÊÓ½ÇºÍ»ùÓÚ½á¹¹ÊÓ½ÇµÄÔ¤ÑµÁ·Ä£ÐÍµÄ³¬²ÎÊýÓÅ»¯·½Ê½½øÐÐÁË¸Ä½ø£¬ËùÒÔ£¬ÊµÑéÖÐ¶Ô¸Ã²¿·Ö·½·¨µÄ¼ÇºÅ×÷ÈçÏÂµ÷Õû£º
+
 \indent -OM-L£ºMultiOM+HORDÎ´¶Ô»ùÓÚÉÏÏÂÎÄÊÓ½ÇµÄÔ¤ÑµÁ·Ä£ÐÍ½øÐÐ³¬²ÎÓÅ»¯£¬ËùÒÔÒÀÈ»ÑØÓÃOM-L±íÊ¾¸Ä½øºóµÄTF-IDFËã·¨µÄÐ§¹û£»
+
 \indent -OMH-R£ºMultiOMÖÐ²ÉÓÃOM-R±íÊ¾»ùÓÚÍâ²¿×ÊÔ´ÊÓ½ÇµÄÔ¤ÑµÁ·Ä£ÐÍµÄÆ¥Åä½á¹û£¬MultiOM+HORD²ÉÓÃHORDËã·¨¶ÔÆä²ÎÊý½øÐÐÓÅ»¯£¬¹ÊÕâÀï¼ò¼ÇÎªOMH-R£»
+
 \indent -OMH-S£ºMultiOMÖÐ²ÉÓÃOM-S±íÊ¾»ùÓÚ½á¹¹ÊÓ½ÇµÄÔ¤ÑµÁ·Ä£ÐÍµÄÆ¥Åä½á¹û£¬MultiOM+HORD²ÉÓÃHORDËã·¨¶ÔÆä²ÎÊý½øÐÐÓÅ»¯£¬¹ÊÕâÀï¼ò¼ÇÎªOMH-S£»
+
 \indent -OMH-RS£ºÊÇOMH-RÓëOMH-S²ÉÓÃ¶àÊÓ½ÇÆ¥ÅäËã·¨½øÐÐ×éºÏºóµÄ½á¹û£»
-\indent -OMH-SR^-£ºÎ´²ÉÓÃ±¾ÎÄ¸Ä½øµÄ½á¹¹¸º²ÉÑù£¬½«OMH-RÓëOMH-S²ÉÓÃ¶àÊÓ½ÇÆ¥ÅäËã·¨½øÐÐ×éºÏºóµÄ½á¹û£»
-\indent -MultiOM+HORD£ºÒÔÍ¬ÑùµÄ·½Ê½£¬ÕâÀï²ÉÓÃMultiOMH±íÊ¾HORDËã·¨¸Ä½øMultiOMºóµÄÕûÌå½á¹û£»MultiOM+HORD^-±íÊ¾MultiOMÎ´²ÉÓÃ±¾ÎÄ¸Ä½øµÄ½á¹¹¸º²ÉÑùµÄ½á¹û¡£
+
+\indent -OMH-SR$^-$£ºÎ´²ÉÓÃ±¾ÎÄ¸Ä½øµÄ½á¹¹¸º²ÉÑù£¬½«OMH-RÓëOMH-S²ÉÓÃ¶àÊÓ½ÇÆ¥ÅäËã·¨½øÐÐ×éºÏºóµÄ½á¹û£»
+
+\indent -MultiOMH£ºÒÔÍ¬ÑùµÄ·½Ê½£¬ÕâÀï²ÉÓÃMultiOMH±íÊ¾HORDËã·¨¸Ä½øMultiOMºóµÄÕûÌå½á¹û£»MultiOMH$^-$±íÊ¾MultiOMÎ´²ÉÓÃ±¾ÎÄ¸Ä½øµÄ½á¹¹¸º²ÉÑùµÄ½á¹û¡£
 
 \indent ÊµÑé²ÎÊý²¿·Ö£¬MultiOM+HORDµÄ²ÎÊýÉèÖÃÓëMultiOM·½·¨µÄÓÐËù²»Í¬£¬ÐèÒªµ÷½ÚµÄ²ÎÊýMultiOM+HORD²»»áÉè¶¨¾ßÌåµÄÖµ£¬Ö»ÊÇ½«ÆäÏÞ¶¨ÔÚÒ»¶¨µÄ·¶Î§ÄÚ£¬¶ÔÎ´½øÐÐÓÅ»¯µÄ²ÎÊý£¬MultiOM+HORDÒÀÈ»ÑØÓÃMultiOMÖÐµÄ²ÎÊýÉèÖÃ¡£Í¬Ê±£¬MultiOMÄ£ÐÍ±¾ÉíµÄÓÅ»¯·½·¨£¬ÕâÀïÒ²²»×ö¸Ä±ä£¬ÒÀÈ»²ÉÓÃËæ»úÌÝ¶ÈÏÂ½µ£¨SGD£©¶ÔMultiOMÖÐµÄ±íÊ¾Ñ§Ï°Ä£ÐÍExterRlModelºÍStructRlModelµÄ²ÎÊý½øÐÐÑ§Ï°¡£
 
@@ -173,9 +211,8 @@ anatomical)·Ö±ð±íÊ¾½âÆÊÑ§±¾ÌåºÍ³ÉÄêÐ¡Êó½âÆÊÑ§±¾Ìå£¬¶þÕß¶¼ÊÇ´¿´âµÄ½âÆÊÑ§±¾ÌåÂÛ£¬¶
 }\\
 
 \subsection{Ô¤²â½á¹ûÓë·ÖÎö}
-{\songti\xiaosihao ±í\ref{tab:result5}ÁÐ³öÁËMultiOMHÓëMultiOMÒÔ¼°¸÷ÖÖ»ù×¼Æ¥Åä½á¹ûµÄ¶Ô±ÈÍ¼¡£Í¨¹ý¶Ô±È¿ÉÒÔ·¢ÏÖ£¬²ÉÓÃHORDËã·¨½øÐÐ³¬²ÎÓÅ»¯ºóMultiOMH µÄÐ§¹û½ÏMultiOMÎÞÂÛÊÇ×¼È·ÂÊ£¬»¹ÊÇÕÙ»ØÂÊ¶¼½ÏÖ®Ç°ÓÐËùÌáÉý£¬MultiOMH-µÄÐÔÄÜÒ²ÓÅÓÚMultiOM-£¬²¢ÇÒMultiOMHµÄ½á¹û¿ÉÒÔÓëStringEquiv-NSRÏàµ±¡£MultiOMHÊÇ»ùÓÚMultiOM²ÉÓÃHORDËã·¨½øÐÐ³¬²ÎÓÅ»¯µÄÄ£ÐÍ£¬Ò²½øÒ»²½ÑéÖ¤ÁË±íÊ¾Ñ§Ï°Ä£ÐÍ³¬²ÎÊý»áÓ°ÏìÄ£ÐÍËùÑ§ÌØÕ÷£¬ÏÔÈ»£¬¾­¹ýÓÅ»¯ºóµÄ²ÎÊý£¬¿ÉÒÔÑ§µ½¸ü¼Ó×¼È·µÄÌØÕ÷£»ÁíÍâ£¬ÎÞÂÛÊÇMultiOMÓëMultiOM-»¹ÊÇMultiOMHÓëMultiOMH-¶¼ËµÃ÷Í¬ÀûÓÃÁË¸Ä½øºóµÄ½á¹¹¸º²ÉÑù£¬Ð§¹ûÒÀÈ»»áÓÐËùÌá¸ß£¬Ò²½øÒ»²½ÑéÖ¤ÁË±¾ÌåµÄ½á¹¹ÐÅÏ¢ÓÐÖúÓÚ±¾ÌåÆ¥ÅäÈÎÎñÐ§¹ûµÄÌáÉý¡£
 
-\begin{table}
+\begin{table}[!h]
 	\centering
 	\footnotesize
 	\caption{MultiOMHÓëMultiOMÒÔ¼°¸÷ÖÖ»ù×¼Æ¥Åä½á¹ûµÄ¶Ô±ÈÍ¼}
@@ -206,14 +243,15 @@ anatomical)·Ö±ð±íÊ¾½âÆÊÑ§±¾ÌåºÍ³ÉÄêÐ¡Êó½âÆÊÑ§±¾Ìå£¬¶þÕß¶¼ÊÇ´¿´âµÄ½âÆÊÑ§±¾ÌåÂÛ£¬¶
 		&  2466  & 2200  &    0.892 &   0.819 &   0.854  \\\hline
 	\end{tabular}
 \end{table}}
+{\songti\xiaosihao ±í\ref{tab:result5}ÁÐ³öÁËMultiOMHÓëMultiOMÒÔ¼°¸÷ÖÖ»ù×¼Æ¥Åä½á¹ûµÄ¶Ô±ÈÍ¼¡£Í¨¹ý¶Ô±È¿ÉÒÔ·¢ÏÖ£¬²ÉÓÃHORDËã·¨½øÐÐ³¬²ÎÓÅ»¯ºóMultiOMH µÄÐ§¹û½ÏMultiOMÎÞÂÛÊÇ×¼È·ÂÊ£¬»¹ÊÇÕÙ»ØÂÊ¶¼½ÏÖ®Ç°ÓÐËùÌáÉý£¬MultiOMH-µÄÐÔÄÜÒ²ÓÅÓÚMultiOM-£¬²¢ÇÒMultiOMHµÄ½á¹û¿ÉÒÔÓëStringEquiv-NSRÏàµ±¡£MultiOMHÊÇ»ùÓÚMultiOM²ÉÓÃHORDËã·¨½øÐÐ³¬²ÎÓÅ»¯µÄÄ£ÐÍ£¬Ò²½øÒ»²½ÑéÖ¤ÁË±íÊ¾Ñ§Ï°Ä£ÐÍ³¬²ÎÊý»áÓ°ÏìÄ£ÐÍËùÑ§ÌØÕ÷£¬ÏÔÈ»£¬¾­¹ýÓÅ»¯ºóµÄ²ÎÊý£¬¿ÉÒÔÑ§µ½¸ü¼Ó×¼È·µÄÌØÕ÷£»ÁíÍâ£¬ÎÞÂÛÊÇMultiOMÓëMultiOM-»¹ÊÇMultiOMHÓëMultiOMH-¶¼ËµÃ÷Í¬ÀûÓÃÁË¸Ä½øºóµÄ½á¹¹¸º²ÉÑù£¬Ð§¹ûÒÀÈ»»áÓÐËùÌá¸ß£¬Ò²½øÒ»²½ÑéÖ¤ÁË±¾ÌåµÄ½á¹¹ÐÅÏ¢ÓÐÖúÓÚ±¾ÌåÆ¥ÅäÈÎÎñÐ§¹ûµÄÌáÉý¡£
 
-\indent ±í\ref{tab:result2}Õ¹Ê¾ÁËMultiOMHÓëMultiOM·Ö±ð½«²»Í¬ÊÓ½ÇµÄÄ£ÐÍ×éºÏºóµÄÐ§¹û¶Ô±ÈÍ¼¡£×ÜÌå¶øÑÔ£¬½«µÄ²»Í¬ÊÓ½ÇÄ£ÐÍµÄÆ¥Åä½á¹ûºÏ²¢ºó£¬Æ¥ÅäÐ§¹û»á¸üºÃ¡£¶ÔÓÚÉÏÏÂÎÄÊÓ½ÇÄ£Ä£¿é£¬¾ÍFÖµ¶øÑÔ£¬¸Ä½øµÄTF-IDF£¨±íÊ¾ÎªOM-L£©±ÈÔ­Ê¼TF-IDF¸üºÃ£¬ÕâÊÇÒòÎª²ÉÓÃ±íÊ¾Ñ§Ï°·½·¨½«µ¥´Ê±íÊ¾³ÉÏòÁ¿ÐÎÊ½±È×Ö·û´®±íÊ¾¿ÉÒÔÌá¹©¸ü¶àµÄÓïÒåÐÅÏ¢¡£¶ÔÓÚÍâ²¿×ÊÔ´ÊÓ½ÇÇ¶ÈëÄ£¿é£¨³ÆÎªOM-R£©£¬ConvEºÍMuitiOMÖÐÔ¤ÑµÁ·Ä£ÐÍµÃµ½µÄÐ§¹ûÓÅÓÚËæ»ú³õÊ¼»¯µÄÐ§¹û£¬ÒòÎªÕâÁ½ÖÖ·½Ê½¶¼¿ÉÒÔÀûÓÃ±¾ÌåµÄ½á¹¹¹ØÏµÔÚµÃµ½¸üºÃµÄ¸ÅÄî±íÊ¾¡£µ«ÊÇ£¬º¯Êý7Ëù¹¹³ÉµÄÔ¤ÑµÁ·Ä£ÐÍÐèÒª20·ÖÖÓ£¬ConvEÈ´ÐèÒª½«½ü24¸öÐ¡Ê±À´»ñµÃ¸ÅÄîµÄÏòÁ¿±íÊ¾¡£ÖµµÃ×¢ÒâµÄÊÇ£¬TransE²»ºÏÊÊ×÷Îª±¾ÈÎÎñµÄÔ¤ÑµÁ·Ä£ÐÍ¶Ô¸ÅÄî½øÐÐ±íÊ¾¡£Í¨¹ýTransEµÃµ½µÄ±íÊ¾²¢Î´ÄÜ¹»ºÜºÃµÄ·´Ó³¸ÅÄîµÄ½á¹¹ÐÅÏ¢¡£×ÜÌå¶øÑÔ£¬Í¨¹ýÊý¾Ý¶Ô±È¿ÉÖªÔÚ¶àÊÓ½ÇµÄÈý¸öÄ£¿éÖÐÊ¹ÓÃÐÂµÄ¸º²ÉÑù²ßÂÔ£¨¼´OM-S£¬OM-RS18 19£¬MultiOM£©ÓÐÖúÓÚ½øÒ»²½Ìá¸ßÆ¥ÅäµÄ×¼È·ÂÊºÍFÖµ¡£
+\indent ±í\ref{tab:result6}Õ¹Ê¾ÁËMultiOMHÓëMultiOM·Ö±ð½«²»Í¬ÊÓ½ÇµÄÄ£ÐÍ×éºÏºóµÄÐ§¹û¶Ô±ÈÍ¼¡£Í¨¹ý¸÷¸öÊÓ½ÇÄ£ÐÍµÄÆ¥Åä½á¹ûÏêÏ¸¶Ô±È¿ÉÒÔ·¢ÏÖ£¬²ÉÓÃHORD½øÐÐ²ÎÊýÓÅ»¯ºó£¬»ù±¾ÉÏ¶Ô¸÷¸öÊÓ½ÇµÄÆ¥Åä½á¹û¶¼ÓÐËùÌáÉý¡£ÖÚ¶àµÄ½á¹ûËµÃ÷£¬¾­¹ý²ÎÊýÓÅ»¯ºó£¬²»½ö¿ÉÒÔÊ¹µÃ¸÷¸öÄ£ÐÍ´íÎóµÄÆ¥ÅäµÃÒÔ¼õÉÙÍ¬Ê±¿ÉÒÔÑ°ÕÒµ½Ò»Ð©ÕýÈ·Æ¥Åä£¬ÒÔÉÏ½á¹û½øÒ»²½ËµÃ÷²ÎÊýÓÅ»¯ºó¿ÉÒÔ°ïÖú±íÊ¾Ñ§Ï°Ä£ÐÍÑ§µÃ¸ü¼ÓºÏÊÊµÃÌØÕ÷£¬»ñµÃµÃ¸ÅÄîÏòÁ¿±íÊ¾¸ü¼ÓÓÐÐ§¡£
 
-\begin{table}
+\begin{table}[!h]
 	\centering
 	\caption{MultiOMHÓëMultiOM·Ö±ð½«²»Í¬ÊÓ½ÇµÄÄ£ÐÍ×éºÏºóµÄÐ§¹û¶Ô±ÈÍ¼}
 	\footnotesize
-	\label{Combination}
+	\label{tab:result6}
 	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline
 		Methods &Number & Correct& P &R & F1\\\hline
@@ -231,23 +269,45 @@ anatomical)·Ö±ð±íÊ¾½âÆÊÑ§±¾ÌåºÍ³ÉÄêÐ¡Êó½âÆÊÑ§±¾Ìå£¬¶þÕß¶¼ÊÇ´¿´âµÄ½âÆÊÑ§±¾ÌåÂÛ£¬¶
 		OMH-$R$ (loss function \ref{Pretaining},  threshold$=0.95$)     & 824& 794   & 0.964    & 0.524 &   0.679  \\\hline
 		OMH-$RS^-$ (threshold$=0.95$)   & 1263& 1147& 0.908  & 0.757 &   0.826  \\\hline
 		OMH-$RS$ (threshold$=0.95$)   & 1221& 1140& 0.934  & 0.752 &   0.833  \\\hline
-		MultiOMH$^-$ &1462 & 1296   & 0.873  & 0.855 &  0.864  \\\hline
+		MultiOMH$^-$&1462 & 1296   & 0.886  & 0.855 &  0.870 \\\hline
 		MultiOMH&1431 & 1290   & 0.901  & 0.851 &  0.876  \\\hline
 	\end{tabular}
 \end{table}
 
-}\\
-    \subsection{ÊµÑéÉèÖÃ}
-        {\songti\xiaosihao ´ýÍêÉÆ}\\
-    \subsection{±¾ÌåÆ¥Åä½á¹ûÓë·ÖÎö}
-        {\songti\xiaosihao ´ýÍêÉÆ}\\
-\section{»ùÓÚBERTÄ£ÐÍºÍHORDËã·¨¶ÔMuitiOMµÄ¸Ä½øµÄÆÀ¹À½á¹û}
-    {\songti\xiaosihao ´ýÍêÉÆ}\\
-    \subsection{ÊµÑéÉèÖÃ}
-        {\songti\xiaosihao ´ýÍêÉÆ}\\
-    \subsection{±¾ÌåÆ¥Åä½á¹ûÓë·ÖÎö}
-        {\songti\xiaosihao ´ýÍêÉÆ}\\
+\begin{table}[!h]
+	\centering
+	\caption{BertMultiOMÓëMultiOM£¬OAEI2018¶¥¼¶ÏµÍ³ÒÔ¼°»ùÓÚ±íÊ¾Ñ§Ï°µÄSCBOW+DAEÄ£ÐÍµÄÐ§¹û±È½Ï}
+	\label{tab:result7}
+	\footnotesize
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\multirow{2}{*}{Methods} &\multicolumn{5}{c|}{MA-NCI} & \multicolumn{5}{c|}{FMA-NCI-small} \\
+		  &Number & Correct& P &R & F1  &Number & Correct& P &R & F1\\\hline
+		SCBOW + DAE 	& 1399 & 1356   & 0.969  & 0.906 &   0.938
+		& 2282 & 2227  & 0.976 & 0.889    & 0.930 \\\hline
+		\textbf{BertMultiOM}& \textbf{1441} & \textbf{1363}  & \textbf{0.946}  & \textbf{0.891} &  \textbf{0.918}
+		&  \textbf{2793}  & \textbf{2647}  &    \textbf{0.948} &   \textbf{0.907} &   \textbf{0.927} \\\hline
+        LogMapBio   &1550 & 1376  &  0.888& 0.908 & 0.898
+		& 2776  & 2632  & 0.948  & 0.902   & 0.921 \\\hline
+		POMAP++     &1446 &  1329 &  0.919& 0.877 & 0.897
+		&2414  &2363  & 0.979  & 0.814    & 0.889 \\\hline
+		XMap             &1413 &   1312& 0.929 & 0.865&  0.896
+		&2315  & 2262 & 0.977  & 0.783   & 0.869 \\\hline
+		LogMap        & 1387&   1273  & 0.918 & 0.846&   0.880
+        & 2747 & 2593  & 0.944 &  0.897  & 0.920\\\hline
+		SANOM         &1450 & 1287   & 0.888 & 0.844&  0.865
+		& --  & --  & -- & --   & -- \\\hline
+		FCAMapX      & 1274&  1199   & 0.941 & 0.791 &  0.859
+		& 2828 &  2681  & 0.948 & 0.911   & 0.929 \\\hline
+		\textbf{MultiOM}& \textbf{1445} & \textbf{1287}  & \textbf{0.891}  & \textbf{0.849} &  \textbf{0.869}
+		&  \textbf{2330}  & \textbf{2195}  &    \textbf{0.942} &   \textbf{0.817} &   \textbf{0.875} \\\hline
+	\end{tabular}
+\end{table}
 
+\indent µ«ÒÔÉÏ½á¹û½ÏÒ»Ð©±È½ÏºÃµÄ±¾ÌåÆ¥ÅäÏµÍ³µÃÐ§¹ûÒÀÈ»´æÔÚ½Ï´ó²î¾à£¬Í¨¹ýÁ½¸öÊµÑé½á¹û×ÛºÏ¶Ô±È¿ÉÒÔ·¢ÏÖ£¬ÀûÓÃ¸Ä½øµÃTF-IDFËã·¨µÄÐ§¹û×¼È·ÂÊÓÐ$0.991$,ÆäÕÙ»ØÂÊ²»¸ß£¬Ö÷ÒªÊÇÒòÎªÎÒÃÇÀûÓÃµÄÊÇÔ¤ÑµÁ·´ÊÏòÁ¿£¬Ö»°üº¬Æä×ÖÃæÓïÒåÐÅÏ¢£¬²¢Î´¶ÔÕâÐ©Ô¤ÑµÁ·´ÊÏòÁ¿»ùÓÚµ±Ç°Óï¾³½øÐÐ¸Ä½ø£¬ËùÒÔ¶øÎ´°üº¬¸Ã±¾ÌåÆ¥ÅäÈÎÎñÏÂµÄÓïÒåÐÅÏ¢¡£¿¼ÂÇµ½ÒÔÉÏÔ­Òò£¬±¾ÎÄ½øÒ»²½ÔÚMultiOM¿ò¼ÜÏÂ£¬²ÉÓÃBERTÄ£ÐÍ½øÐÐ¸Ä½ø£¬ÎÒÃÇ½«¸Ä½øºóµÄÄ£ÐÍÃüÃûÎªBertMultiOM£¬BertMultiOMÓëMultiOM£¬OAEI2018¶¥¼¶ÏµÍ³ÒÔ¼°»ùÓÚ±íÊ¾Ñ§Ï°µÄSCBOW+DAEÄ£ÐÍµÄÐ§¹û±È½Ï¼û±í\ref{tab:result7}¡£
+
+\indent ¸ù¾Ý±í\ref{tab:result7}ÖÐµÄ½á¹û¶Ô±È¿ÉÒÔ·¢ÏÖ£¬BertMultiOMµÄÆ¥ÅäÐ§¹û½ö½ö´ÎÓÚSCBOW+DAEÄ£ÐÍµÄÐ§¹û£¬²¢ÇÒ½ÏSCBOW+DAEÄ£ÐÍ£¬¿ÉÒÔÕÒµ½¸ü¶àÕýÈ·Æ¥Åä£»ÓëµÚ¶þÃûLogMapBioÏµÍ³Ïà±È£¬BertMultiOMµÄÕýÈ·ÂÊÓëFÖµÒªÓÅÓÚLogMapBio£¬Òò´Ë£¬Í¨¹ý¸Ã·½Ê½¶ÔMultiOMµÄ¸Ä½øÊÇÓÐÐ§µÄ¡£Ö®Ç°µÄÊµÑéÒÑ¾­ÑéÖ¤ÁËHORDËã·¨Í¨¹ý²ÎÊýÓÅ»¯¿ÉÒÔÌáÉýMultiOM
+}\\
 \ifx\allfiles\undefined
 \end{document}
 \fi
