@@ -2,41 +2,350 @@
 \documentclass[a4paper,12.15pt,CJK,oneside]{article}
 \begin{document}
 %\pagestyle{plain}
+\else
+\fi
 
-\chapter{实验与评估}
+\chapter{基于多视角的本体匹配模型MOM}
 \thispagestyle{fancy} \fancyhead[L]{\songti \wuhao
-重庆师范大学硕士学位论文}\fancyhead[R]{\songti \wuhao 4~实验与评估}
-\section{数据集}
-{\songti\xiaosihao 待完善}\\
- \subsection{表示学习数据集}
-  {\songti\xiaosihao 待完善}\\
-   \subsection{医学本体匹配数据集}
-  {\songti\xiaosihao 待完善}\\
+重庆师范大学硕士学位论文}\fancyhead[R]{\songti \wuhao 4~基于多视角的本体匹配模型MOM}
+{\songti\xiaosihao 本章主要介绍针对现有方法本文提出的问题问题一和问题二，本文设计的基于多视角的本体匹配模型MOM，以下将从MOM模型的介绍，以及实验评估两个方面进行详细介绍。
+\section{基于多视角的MOM本体匹配模型介绍}
+\subsection{问题定义}
+{\songti\xiaosihao 本体匹配是解决领域本体异构性问题的有效方法之一。为更好的阐述本文的研究内容，本文首先引入了本体匹配的形式化定义。
 
-\section{评估指标}
-\setcounter{equation}{0}
-\subsection{表示学习模型评估指标}
-  {\songti\xiaosihao 待完善}\\
-  \subsection{本体匹配评估指标}
-  {\songti\xiaosihao 待完善}\\
+\indent \textbf{定义1：}本文采用四元组$({e_i},{e_j},r,\theta )$来表示$0_i$，$0_j$的一组匹配，其中$0_i$和$0_j$表示两个本体，$e_i$，$e_j$分别代表$0_i$ 和$0_j$ 中的实体（实体可以是本体的概念，性质等），r表示两个实体$e_i$，$e_j$之间的关系，在多数本体中，r一般表示$\left\{ { \subseteq , \supseteq , \equiv } \right\}$ 三类关系中的一种。
 
-\section{基于HORD算法的几类表示学习模型超参数优化的评估结果}
-    {\songti\xiaosihao 待完善}\\
-    \subsection{实验设置}
-        {\songti\xiaosihao 待完善}\\
-    \subsection{预测结果与分析}
-        {\songti\xiaosihao 待完善}\\
-\section{基于多视角的生物医学本体匹配模型--MuitiOM的评估结果}
-    {\songti\xiaosihao 待完善}\\
-    \subsection{实验设置}
-        {\songti\xiaosihao 待完善}\\
-    \subsection{本体匹配结果与分析}
-        {\songti\xiaosihao 待完善}\\
-\section{基于BERT模型和HORD算法对MuitiOM的改进的评估结果}
-    {\songti\xiaosihao 待完善}\\
-    \subsection{实验设置}
-        {\songti\xiaosihao 待完善}\\
-    \subsection{本体匹配结果与分析}
-        {\songti\xiaosihao 待完善}\\
+\indent 在很多本体匹配的实际任务中，匹配系统主要关注具有等价关系（等价关系可以理解为一般的同义词关系）的概念匹配。因此，在本文的剩余部分中，只针对需要获取等价关系的本体匹配任务，本文的模型设计也只注重挖掘领域本体中的存在等价关系的概念对。}
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{multiom.png}
+\caption{“MOM”模型框架}
+\label{fig:muitiom}
+\end{figure}
+\subsection{MOM模型整体框架}
 
+{\songti\xiaosihao 现有的工作\cite{xian1,xian2,xian3}表明，采用多视角的方式可以从不同角度获得本体更多的语义信息，并提升相应任务的准确性和稳定性。受以上工作启发，本文采用基于多视角的方法来描述本体匹配的过程，并针对现有方法未充分利用本体结构信息的问题，尝试融入更多的结构信息，来提升匹配效果。
+
+\indent MOM模型的框架如图\ref{fig:muitiom}所示，给定两个本体$0_1$和$0_2$，首先抽取本体中的概念，结构关系信息，对本体的概念进行规范化同时采用同义词词典挖掘同义概念，如图中采用同义词词典中的Forelimb与Upper extremity为同义词，所以可以找到同义词对（Forelimb,Upper extremity），从而针对不同视角的模型构建相应概念对数据集；随后将对应的数据集输入到三个视角的预训练模型中，分别是基于外部资源视角，基于结构视角以及基于上下文视角的模型，不同视角的模型，模型学习的重心也不同，基于外部资源的预训练模型主要关注第三方本体的结构信息，基于结构视角的预训练模型更加注重两个待匹配本体之间的结构信息，基于上下文视角的预训练模型注重利用本体概念本身的语义信息，采用多个视角旨在结合以上三个模型所学信息，来提升本体匹配的效果；同时为获得本体所有概念所涵盖单词的语义信息，MOM 在上下文视角模块引入了上下文信息，第三方本体的结构信息有助于提升匹配质量\cite{ziji}，因此在外部资源视角模块中将第三方本体作为外部资源；然后不同视角的模型学习得到同一概念的三种不同表示，再采用各自不同的相似度计算方法得到概念对的相似度，MOM模型中不同视角的模型可以学得不同方面的特征，如图所示，如基于外部资源的模型根据第三方本体的结构信息可以判定匹配对（Blood Capillary,Capillary）为错误匹配；基于结构信息的预训练模型可以判定（limb,Forelimb）和（limb,Upperextremity）为错误匹配；基于上下文的预训练模型采用词向量，可以确定（Upperextremity,Forelimb）的正确性。最后通过相互评价的多视角匹配算法来得到最终的匹配，所以最终正确的匹配为（Upperextremity,Forelimb）。
+
+\indent MOM与基于统计学习类的方法不同，是利用本体的概念的语义信息，通过表示学习技术得到概念的连续向量表示，避开了人工构建特征的麻烦。与现有的基于深度学习的方法相比，MOM利用第三方本体，以及本体自身的结构信息，来进一步提升匹配的效果。在MOM中，对同一个概念存在不同粒度的向量表示，在外部资源视角和结构视角，MOM分别基于TransE，TransR构建表示学习模型得到以每个概念整体为单位的向量表示，然后通过余弦相似度得到概念之间的相似度；上下文视角中，基于word2vec\cite{word2vec}训练上下文得到的本体概念中所有单词的向量表示，一般概念由多个单词的组成，将这些单词对应向量所构成的集合$\bf{\left\{{{t_1},{t_2}, \ldots ,{t_n}} \right\}}$来表示该概念，再利用这些单词表示，基于本文设计的算法计算概念之间的相似度。
+
+\subsection{基于上下文视角的预训练模型}
+
+\indent 首先，通过MOM模型的框架\ref{fig:muitiom}中的例子来说明，基于上下文视角的模型采用预训练词向量，对于输入的概念对（limb,Forelimb），（Blood Capillary,Capillary）以及（Upperextremity,Forelimb），对照基于上下文训练Word2vec模型得到的词向量表，获得各个单词对应的词向量表示，再通过本文改进的TF-IDF算法求出每个单词对应的权重，再采用余弦距离求出两个概念的相似度。语义相近的概念相似度越高，而Upperextremity与Forelimb的相似度会接近于$1$，所以图中将（Upperextremity,Forelimb）正确匹配输出，至于其他概念对基于上下文视角无法确定，需结合其他视角，通过多视角匹配算法来确定。下面详细介绍本文提出的改进的TF-IDF算法。
+
+\indent 基于上下文视角的预训练模型主要基于TF-IDF算法\cite{tfidf}，TF-IDF算法也是本体匹配中计算字符串相似度的非常有效的方法之一\cite{tfidf}。根据TF-IDF算法的假设，可将一个本体中所有概念涵盖的单词表示成一个由单词构成的词袋，每个概念${C_i}$看作一个文档。单个概念所包含的单词$\left\{ {{t_1},{t_2}, \ldots ,{t_n}} \right\}$看作术语。受软TF-IDF算法\cite{tfidf}的启发，本文提出了一种基于词向量嵌入的TF-IDF策略的改进算法来计算概念的相似性，再通过匹配算法实现本体匹配的模型。首先通过word2vec模型\cite{word2vec}训练对应上下文，得到词袋中所有单词的向量表示；然后利用概念中的单词的表示，得到概念的表示$\bf{\left\{ {{t_1},{t_2}, \ldots ,{t_l}} \right\}}$，这里$l$等于概念所包含的单词数量，最后基于概念表示（概念中的单词的表示构成的集合）利用本文设计的相似度计算方式得到概念对的相似度。这里的相似度计算方法不同于一般的字符串等价，相应的定义如公式\label{equ:1}：
+\begin{equation}
+Sim({C_1},{C_2}) = \sum\limits_{i = 1} {{w_i} \cdot \mathop {\arg \max }\limits_j \cos ({{\bf{t}}_{{\bf{1i}}}},{{\bf{t}}_{{\bf{2j}}}})}
+\label{equ:1}
+\end{equation}
+其中，$C_1$，$C_2$分别表示$O_1$和$O_2$中的概念，$\bf{t_{1i}}$，$\bf{t_{2j}}$表示$C_1$，$C_2$中两个单词$t_{1i}$,$t_{2j}$的向量表示，${{w_i}}$ 表示${t_{1i}}$在概念$C_1$中的权重，计算方式如公式\label{equ:8}：
+\begin{equation}
+{w_i} = \frac{{TFIDF({t_{1i}})}}{{\sum\limits_{l = 1}^n {TFIDF({t_{1l}})} }}
+\label{equ:8}
+\end{equation}
+这里$n$表示概念$C_1$所包含的单词数，$TFIDF( \cdot )$表示每个单词的TFIDF函数值。
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{negative.png}
+\caption{基于结构负采样示意图}
+\label{fig:negative}
+\end{figure}
+\indent 因为$\bf{t_{1i}}$，$\bf{t_{2j}}$向量包含了单词丰富的上下文信息，所以基于语义嵌入的TFIDF策略能够更好的反映概念之间字面意思的相似情况，与字符串匹配相比，可以发现更多的概念同义词匹配。一方面，基于TF-IDF策略的改进算法依赖于词嵌入的质量，词嵌入的质量影响匹配的效果，因此这里采采用了高质量的预训练向量来保证基于上下文视角的匹配效果（参见第5.2节）。另一方面，使用基于其他视角的预训练模型生成的匹配来评估基于上下文视角所得匹配的质量（参见第4.2.3节）。
+
+\subsection{基于结构负采样视角的预训练模型}
+
+\indent 首先，通过MOM模型的框架\ref{fig:muitiom}中的例子来说明，对于输入的概念对（limb,Forelimb），（Blood Capillary,Capillary）以及（Upperextremity,Forelimb），借助本节构建的表示学习模型，再训练（Upperextremity,Forelimb）概念对表示时，需要对两个概念进行负采样，而在进行结构负采样时，可以发现两个本体中存在（Forelimb,SubClassOf,limb），（Upperextremity,SubClassOf,limb）关系，对于存在这样关系的概念，不会是正确匹配，所以，模型可以做出如图的判断。至于（Upperextremity,Forelimb）的相似度，需参照其他视角的模型，结合多视角匹配算法综合做出判断。下面重点介绍本节的结构负采样预训练模型。
+
+\indent 现有的利用表示学习的本体匹配方法侧重于采用概念的名称，标签，定义等术语信息来学习的概念的词向量表示，却并没有充分利用本体中的结构关系，而有效的利用本体的结构信息，有助于提升本体匹配的效果。所以，本节将从结构视角构建表示学习模型来实现本体的匹配。首先假设由字符串等价或其同义词替换生成的待匹配对是正确的，将获得的待匹配对作为结构视角的表示学习模型模型训练的数据集，然后本文定义了基于交叉熵的损失函数来构建表示学习模型来得到概念的向量表示。损失函数定义如公式\label{equ:2}：
+\begin{equation}
+{l_{SE}} =  - \sum\limits_{({C_1},{C_2}, \equiv ,1.0) \in M} {\log {f_{SE}}({C_1},{C_2})}  - \sum\limits_{({C_1}^\prime ,{C_2}^\prime , \equiv ,1.0) \in M'} {\log {f_{SE}}({C_1}^\prime ,{C_2}^\prime )} )
+\label{equ:2}
+\end{equation}
+其中$M$表示根据假设得到的待匹配对$\{ ({C_1},{C_2}, \equiv ,1.0)\}$构成的正例数据集，${M'}$表示负例数据集，为生成负例训练集${M'}$，MOM采用了新的负采用技术（参见第三段）。通过对每个正例${({C_1},{C_2}, \equiv ,1.0) \in M}$，根据正太分布函数得到的概率在候选集中，采用新的负采样策略（参见第三段）替换$C_1$ 或$C_2$得到负采样$ {({C_1}^\prime ,{C_2} , \equiv ,1.0) \in M'}$或$ {({C_1} ,{C_2}^\prime , \equiv ,1.0) \in M'}$。$ {{f_{SE}}({C_1},{C_2})}$表示由公式\label{equ:3}定义的计算待匹配对得分的评分函数，其中$\bf{{C_1},{C_2} \in {R^d}}$表示两个本体$O_1$和$O_2$ 中概念${C_1}$，${C_2}$的d维向量表示；${\left\|  \cdot  \right\|_{\rm{2}}}$ 表示向量的2范数，这样设计的目的是对于两个相似的概念${C_1}$，${C_2}$，希望其得分$ {{f_{SE}}({C_1},{C_2})}$尽可能大，相反，对于不相似的概念对，希望其得分尽可能小。基于TransE的距离转移的思想，将评分函数$ {{f_{SE}}({C_1},{C_2})}$ 定义如公式\label{equ:3}：
+\begin{equation}
+{f_{SE}}({C_1},{C_2}){\rm{ = 2}} \cdot \frac{{\rm{1}}}{{{\rm{1 + }}{e^{({{\left\| {{C_1} - {C_2}} \right\|}_2})}}}}
+\label{equ:3}
+\end{equation}
+
+以下详细介绍本文提出的一种不同于TransE以及TransH等表示学习模型从所有概念中进行采样替换的负采样方式，本文的负采样方式充分利用了本体的结构关系，具体方式如下，如图\ref{fig:negative}所示，被替换概念的候选集由所有与该概念不构成SubClassOf，PartOf关系的概念构成，并且替换时若候选集集中存在与该概念构成disjointwith关系的其他概念，则优先将其作为采样对象。例如：以医学本体中的以SubClassOf关系为例，对于任意匹配对${({C_1},{C_2}, \equiv ,1.0) \in M}$，若$C_1$ 或$C_2$ 存在SubClassOf关系，即$({C_i},SubClassOf,{C_1})$ 或$({C_j},SubClassOf,{C_2})$，其中${C_i} \in {O_1}$，${C_j} \in {O_2}$，则负采样时需保证对$C_1$负采样时，候选集中没有$C_i$，对$C_2$负采样时候选集中没有$C_j$。此外，若$C_1$ 或$C_2$存在disjointwith关系,即$({C_m},disjointwith,{C_1})$或$({C_n},disjointwith,{C_2})$，则对$C_1$负采样时，优先采样$C_m$，对$C_2$负采样时，优先采样$C_n$。利用这些本体的结构信息作为约束改进负采样，使得生成的概念的向量表示包含了更多的本体结构信息，有助于提升MOM的匹配性能。
+
+\subsection{基于外部资源视角的预训练模型}
+
+\indent 首先，同样先通过MOM模型的框架\ref{fig:muitiom}中的例子来说明，为方便理解，结合图\ref{fig:muitiom}与图\ref{fig:waibu}进行说明。对于（limb,Forelimb），（Blood Capillary,Capillary）以及（Upperextremity,Forelimb）三个概念对，借助第三方本体的信息，而第三方本体中有关系（BloodCapillary,SubClassOf,Capillary）关系，所以外部资源视角可以对概念对（Blood Capillary,Capillary）做出判断。而具体的方式如图\ref{fig:waibu}所示，本体$O_1$中有一概念$C_1$，其含义为“Blood Capillary”，本体$O_2$中有一概念$C_2$，其含义为“Capillary”，若不考虑第三方本体$O_3$的结构信息，则通常的方法会认为$C_1$和$C_2$为同义词，为正确的匹配，即使是百度翻译也会将其都翻译为“毛线血管”。若考虑第三方本体$O_3$的结构信息，$O_3$中刚好有与$C_1$和$C_2$ 相同的概念，$C_3$和$C_4$，且有关系${C_3},SubClassOf,{C_4}$，则$C_3$是$C_4$的子类，所以二者不可能为同义词关系，即是错误的匹配。而对于模型而言，将$C_1$和$C_2$的向量表示采用矩阵映射到$O_3$中，根据以上的关系，模型学得的向量表示会满足以上关系，在求解其语义距离时，距离会相对较远，从而避免此类错误，并且对于$O_3$中$C_3$和$C_4$周围类似向量表示的同义概念，语义距离也会相对较远，可以避免更多类似的错误匹配。
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{waibu.png}
+\caption{第三方本体作用示意图}
+\label{fig:waibu}
+\end{figure}
+
+\indent 受文献\cite{zhang19}中方法的启发，本节采用第三方本体作为外部资源来实现两个本体之间的连接，现实应用中存在很多不同但存在交叉的本体（即两个本体中包含多个相同的概念），如：MA，NCI与FMA这三个本体中存在很多共有的概念和关系，FMA，NCI和SNOMED-CT这三个本体中，也有很多共有的概念和关系，以上两个例子也是本文实验部分的本体匹配数据集。与字典或上下文信息等外部资源相比，第三方本体作为外部资源可以提供更多的结构信息，这有助于改进本体匹配的质量\cite{zhang19}。 然而，现有的利用第三方本体的方法主要是基于字符串的字面信息来实现匹配，这导致无法通过第三方本体结构信息挖掘更多的待匹配本体之间的语义信息，不利于本体匹配模型性能的提升\cite{ziji}。因此，这里将第三方本体作为外部资源，使用表示学习技术，进一步通过第三方本体的结构信息来提升本体匹配的效果。
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{model.png}
+\caption{左：现有的利用第三方本体的模型框架；右图：本文使用第三方本体的表示学习模型框架}
+\label{fig:model}
+\end{figure}
+
+\indent 另一方面，如图\ref{fig:model}显示了现有的第三方本体类方法的模型框架到本文利用第三方本体作为外部信息的表示学习模型框架的演变。这里，采用$C \in {R^d}$向量来表示概念$C$，因为存在本体交叉的现象，所以不妨假设存在一些概念对$({C_1},{C_2})$，并且这些概念或它们在$O_1$，$O_2$中的同义词出现在第三方本体$O_3$中，例如图中MA，NCI，FMA中都有“Forelimb”，并且“Forelimb”与“Upper limb”等都是同义词，所以第三方本体的结构信息也可以发现更多的匹配。将以上这样的三元组记为$({C_1},{C_2},{C_3})$。 对于不同本体中的概念，这里将以上这些构成同义词的三元组$({C_1},{C_2},{C_3})$ 作为模型的训练数据集，基于TransR的思想，不同本体的概念在不同的向量空间中，引入两个映射矩阵实现不同本体概念的向量空间之间的映射，设计表示学习模型，模型损失函数定义如公式\label{equ:4}；
+\begin{equation}
+{l_{RE}} =  - \sum\limits_{({C_1},{C_2},{C_3}) \in \gamma } {\log {f_{RE}}({C_1},{C_2},{C_3}))}  - \sum\limits_{({C_1}^\prime ,{C_2}^\prime ,{C_3}) \in \gamma '} {\log {f_{RE}}({C_1}^\prime ,{C_2}^\prime ,{C_3}))} )
+\label{equ:4}
+\end{equation}
+\indent 这里$\gamma$表示由同义词三元组$({C_1},{C_2},{C_3})$所构成的集合，${\gamma '}$表示随机替换$C_1$或者$C_2$后所构成的三元组集合$\{ ({C_1}^\prime ,{C_2}^\prime ,{C_3})\}$，${{f_{RE}}({C_1},{C_2},{C_3})}$表示等式\label{equ:5}所示用于计算投影后概念间相似度的得分函数，这里，$\bf{{C_1}},\bf{{C_2}},\bf{{C_3} \in {R^d}}$分别表示${O_1},{O_2},{O_3}$中概念${C_1},{C_2},{C_3}$的d维连续向量表示。${M_{13}}$ 和${M_{23}}$ 分别表示将概念${C_1},{C_2}$投影到第三方本体$O_3$中的映射矩阵，旨在实现将$O_1$和$O_2$中相似的概念投影到$O_3$中与他们相似的概念附近，相反，不相似的概念应该存在一定的距离，语义相反的词距离尽可能远。
+\begin{equation}
+{f_{RE}}({C_1},{C_2},{C_3}) = {\rm{2}} \cdot \frac{1}{{1 + {e^{({{\left\| {{C_1} * {M_{13}} - {C_3}} \right\|}_2} + {{\left\| {{C_2} * {M_{23}} - {C_3}} \right\|}_2})}}}}
+\label{equ:5}
+\end{equation}
+\indent 两个映射矩阵非常重要，实现了不同本体间的语义关联，为了获得更好的映射矩阵，我们保持$O_3$中概念的向量表示不变，这样有助于缩减模型需学习的参数量，只更新两个映射矩阵以及$ {O_1},{O_2}$中概念的参数。这里需先将$O_3$中的结构关系作为数据集，利用预训练模型得到$O_3$中概念的向量表示，来保证$O_3$中概念的表示已包含其结构信息。因现有的预训练模型生成的表示稀疏性不好，无法体现$O_3$本体中的结构信息，所以，本文设计了如下的损失函数来构建表示学习模型来获得更好的第三方本体的概念表示，如公式\label{equ:6}：
+\begin{equation}
+{l_{RE}} =  - \sum\limits_{({C_{31}},r,{C_{32}}) \in \lambda } {\log {f_r}({C_{31}},{C_{32}}))}  - \sum\limits_{({C_1}^\prime ,r,{C_3}) \in \lambda '} {\log {f_r}({C_{31}}^\prime ,{C_{32}}^\prime ))} )
+\label{equ:6}
+\end{equation}
+其中，评分函数${{f_r}}$如公式\label{equ:7}所示：
+\begin{equation}
+{f_r}({C_{31}},{C_{32}}) = 2 \cdot \frac{1}{{1 + {e^{^{({{\left\| {{C_{31}} - {C_{32}}} \right\|}_2} - a)}}}}}
+\label{equ:7}
+\end{equation}
+这里$\lambda$表示由$O_3$中的结构关系三元组$({C_{31}},SubClassOf,{C_{32}})$，$({C_{31}},PartOf,{C_{32}})$构成的集合，${\lambda '}$是随机替换$ {C_{31}}$或${C_{32}}$得到的负例样本的集合，得分函数${f_r}({C_{31}},{C_{32}})$表示在关系$r$中两个满足关系$r$的概念${C_{31}}$和${C_{32}}$之间的得分，$\bf{{C_{31}}}$，$\bf{{C_{32}}}$对应${C_{31}}$和${C_{32}}$的向量表示，值得注意额是这里的SubClassOf以及PartOf 关系并不是等价关系，所以，我们已利用超参数$a$来控制概念向量之间的语义距离。
+
+\subsection{多视角模型的匹配算法}
+
+\begin{algorithm}[htb]
+\caption{多视角匹配算法}
+\label{alg:Framwork}
+\begin{algorithmic}[1] %这个1 表示每一行都显示数字
+\REQUIRE ~~\\ %算法的输入参数：Input
+参数${\delta _1},{\delta _2},{\delta _3},{\delta _4}$的值;\\
+\ENSURE ~~\\ %算法的输出：Output
+本体匹配的最终匹配对;\\
+\STATE 通过相似度取极大来合并来自MOM-S和MOM-R的匹配。其合并结果被标记为MOM-SR;
+\STATE 根据相应的阈值${\delta_1}$和${\delta_2}$选择MOM-L和MOM-SR的可靠匹配（相似度高于阈值即为可靠匹配）;
+\STATE 如果一个可靠匹配属于MOM-L，且在MOM-SR中的相似性低于阈值${\delta_3}$，则将其删除;
+\STATE 若一个可靠匹配属于MOM-SR，且其在MOM-L中的相似性低于阈值${\delta_4}$，则删除此匹配;
+\STATE 对来自MOM-L和MOM-SR的匹配取并，生成最终匹配;
+\RETURN 本体匹配的最终匹配对; %算法的返回值
+\end{algorithmic}
+\end{algorithm}
+
+\indent 在得到不同视角模型获得的匹配后，最终需要将它们进行组合。一个简单的策略是从这些模块中收集所有匹配，并用一个阈值或稳定的结合算法进行过滤\cite{stable}。尽管这种策略最终可以获得很多正确匹配，但也可能引入许多错误的匹配以及容易忽略一对多，多对一或多对多的匹配\cite{ziji}。 因此，我们提出了一种基于相互评估的组合匹配算法。
+}
+
+\section{实验与评估}
+
+\subsection{数据集}
+{\songti\xiaosihao 本节简要概述在本体匹配实验中使用的四种本体，其中两个本体FMA(Foundational Model of Anatomy)和MA(Adult Mouse
+anatomical)分别表示解剖学本体和成年小鼠解剖学本体，二者都是纯粹的解剖学本体论，而另外两个SNOMED CT和NCI是涉及更广的生物医学本体，解剖学只是它们描述的一个子领域\cite{}。虽然这些本体的最新版本是可用的，但是本文在整个本体匹配任务中参考了出现在OAEI(Ontology Alignment Evaluation Initiative) 中的版本，以便在本体匹配系统之间进行比较。
+
+\indent FMA(Foundational Model of Anatomy)：这是一个一直被更新的本体，自1994年由华盛顿大学开发并维护\cite{FMA}，其目的是以机器可读的形式概念化人体的表型结构。
+
+\indent MA(Adult Mouse Anatomical Dictionary)：该本体是描述成年小鼠解剖结构的结构的词汇表\cite{MA}。
+
+\indent NCI(NCI Thesaurus)：该本体提供了癌症的标准词汇\cite{NCI}，其解剖学子域描述人类自有的生物结构、液体和物质。
+
+\indent SNOMED(SNOMED Clinical Terms)：该本体是一个系统化，组织化的机器可读的医学术语集合，提供临床文档和报告中使用的代码、术语、同义词和定义\cite{SNOM}。
+
+\indent 以上本体的概念及对应匹配数量具体如图\ref{tab:dataset}：
+\begin{table}[h]
+\centering
+\caption{本体概念数及对应匹配数量}
+\label{tab:dataset}
+\renewcommand\arraystretch{1.5}
+\begin{tabular}{ccccc}
+\hline
+ 源本体&概念数&目标本体&概念数&匹配数\\
+\hline
+    MA&2744&NCI&3304&1489\\
+\hline
+ FMA&3696&NCI&6488&2504\\
+\hline
+  FMA&10157&SNOMED&13412&7774\\
+\hline
+\end{tabular}
+\end{table}
+}
+\subsection{评估指标}
+  {\songti\xiaosihao
+  OAEI为本体匹配提供了统一的评估标准，评估的指标主要是：匹配的准确率，召回率和F1值。为阐述以上三个指标含义，首先介绍以下概念：
+
+  \indent      TP(True Positives) ：表示模型将正例预测为正例的数据条数；
+
+  \indent      FP(False Positives)：表示模型将负例预测为正例的数据条数；
+
+  \indent      FN(False Negatives)：表示模型将正例预测为负例的数据条数；
+
+  \indent      TN(True Negatives) ：表示模型将负例预测为负例的数据条数；
+
+\indent 所以，由以上四个参数值，可根据以下公式求得具体指标的值，其中total表示待预测数据的总数。
+
+  \indent     准确率(acc)：$acc = \frac{{TP + TN}}{{{\rm{total}}}}$
+
+  \indent     召回率(rec)：$rec = \frac{{TP}}{{TP + FN}}$
+
+  \indent     F1       值：$F1 = \frac{{2 * acc * rec}}{{acc + rec}}$}
+
+
+\subsection{实验环境}
+{\songti\xiaosihao 为了验证本文工作的有效性，本文使用Python借助TensorFlow\footnote{https://www.tensorflow.org/}深度学习框架来实现本文提出的方法。采用OWLAPI\footnote{http://owlapi.sourceforge.net/}（用于管理OWL本体的工具）本体解析工具来获得本体信息。实验是在具有64GB内存和TiTAN XP GPU 的Intel Xeon E5-2630 V4 CPU的个人工作站上进行的。本文中MultiOM的源码和实验数据集可以由\footnote{https://github.com/chunyedxx/MultiOM}下载得到。}
+
+\subsection{词汇释义表}
+
+\begin{table}[h]
+\centering
+\caption{词汇释义表}
+\label{tab:dataset}
+\renewcommand\arraystretch{1.5}
+\begin{tabular}{ll}
+\hline
+ 词汇简称&词汇含义\\
+\hline\\
+MOM&本文提出的本体匹配模型（Multi-view Ontology Matching Model）简称\\
+MOMWH&采用HORD算法对MOMM超参进行优化的模型效果\\
+MOM-S&MOM模型中基于结构负采样视角的子模型效果\\
+MOM-L&MOM模型中基于上下文视角的子模型效果\\
+MOM-R&MOM模型中基于外部资源视角的子模型效果\\
+MOM-SR&MOM基于外部资源模型的效果与结构负采样模型效果的融合结果\\
+MOM$^-$&MOM模型未采用结构负采样的结果\\
+MOMWH$^-$&MOMWH模型未采用结构负采样的结果\\
+StringEquiv&基于字符串等价的基础匹配器\\
+StringEquiv-N&采用概念规范化的StringEquiv匹配器\\
+StringEquiv-S&采用同义词外部资源的StringEquiv匹配器\\
+StringEquiv-SR&采用同义词，第三方本体外部资源的StringEquiv匹配器\\
+StringEquiv-NS&采用字典，第三方本体外部资源的StringEquiv匹配器\\
+StringEquiv-NSR&采用同义词，字典，第三方本体外部资源的StringEquiv匹配器\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{实验结果}
+
+{\songti\xiaosihao 针对现有方法的两个问题，本文设计如下实验，逐步验证本文建模思想是否正确，是否可以有效解决现有方法的两个问题，具体实验步骤由两部分构成，分别是采用本体结构信息的MOM方法与基于字符串方法的对比实验，MOM多视角结合与单个预训练模型的结果对比实验。
+
+\indent 本体概念中单词向量表示主要来自文献\cite{BIO}的链接\footnote{https://doi.org/10.5281/zenodo.1173936}，其维数设置为200。对于一些没有向量表示的单词，我们将其随机初始化，并满足${\left|{\left|{{t_{1i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$ 和${\left|{\left|{{t_{2i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$。}
+
+\noindent \textbf{1.采用本体结构信息的MOM方法与基于字符串方法的对比实验}
+
+\begin{table}[!h]
+\label{tab:canhsu}
+\caption{MOM模型训练时的参数配置}
+\centering
+\renewcommand\arraystretch{1.5}
+\begin{tabular}{cc}
+\toprule  %添加表格头部粗线
+\midrule  %添加表格中横线
+参数     & 参数值 \\
+\hline
+$d$      & $\{{\rm{50}},{\rm{100}}\}$ \\
+$d_M$    & $\{ {\rm{50}} \times {\rm{50}},{\rm{100}} \times {\rm{100}}\}$ \\
+$nbatch$ & $\{ {\rm{5}},{\rm{10}},20,50\}$\\
+$r$      & $\{ {\rm{0}}.{\rm{01}},{\rm{0}}.{\rm{02}},{\rm{0}}.{\rm{001}}\}$\\
+$nrate$  & $\{ {\rm{1}},{\rm{3}},{\rm{5}},{\rm{10}}\}$\\
+$epoch$  & $1000$\\
+$a$      & $\{ {\rm{0}}.{\rm{01}},{\rm{0}}.{\rm{05}},{\rm{0}}.{\rm{10}}\}$\\
+$\{ {\delta _1},{\delta _2},{\delta _3},{\delta _4}\}$ & $\{ 0.8,0.95,0.65,0.3\}$\\
+\bottomrule %添加表格底部粗线
+\hline
+\end{tabular}
+\end{table}
+{\songti\xiaosihao 本实验采用MA-NCI-FMA和FMA-NCI-small-SNOMED两个数据集，将本文的MOM,MOM$^-$方法与StringEquiv,StringEquiv-N,StringEquiv-S,StringEquiv-SR,StringEquiv-NS,StringEquiv-NSR进行对比，以上方法中唯一的变量因素为有没有使用本体的结构信息，通过该实验来验证本体的结构信息是否有助于提升本体匹配的效果。其中，MOM和MOM$^-$方法训练时共享同组参数，具体参数如表\ref{tab:canhsu}所示。
+
+\begin{table}[!h]
+	\centering
+	\footnotesize
+	\caption{MOM与基于字符串的基准匹配系统在MA-NCI中的结果对比表}
+	\label{tab:result1}
+    \renewcommand\arraystretch{1.5}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Methods &\multicolumn{5}{c|}{MA-NCI} \\
+		&Number & Correct& P &R & F1\\\hline
+		StringEquiv & 935& 932& 0.997  & 0.615 &   0.761\\\hline
+		StringEquiv-N &992 & 989&  0.997& 0.625 & 0.789\\\hline
+		StringEquiv-S &1100 & 1057& 0.961 & 0.697&  0.808\\\hline
+		StringEquiv-SR & 1162& 1094 & 0.941 & 0.722 &  0.817\\\hline
+		StringEquiv-NS & 1153& 1109& 0.962 & 0.732&   0.831\\\hline
+		StringEquiv-NSR &1211 & 1143  & 0.943  & 0.753 &  0.838\\\hline
+		MOM$^-$&1484 & 1296   & 0.873  & 0.855 &  0.864\\\hline
+		MOM&1445 & 1287   & 0.891  & 0.849 &  0.869\\\hline
+	\end{tabular}
+\end{table}}
+
+\indent 实验结果如表\ref{tab:result1}，\ref{tab:result9}所示，表中列出了MOM以及多种字符串方法的结果对比表。通过对比可以发现,MOM的匹配效果要比基于字符串的基准匹配系统StringEquiv-NSR的效果无论是准确率，召回率还是F值都要高。两者的差别在于MOM采用了本体的结构信息，而基于字符串的匹配系统未采用结构信息。
+
+\indent 同样，通过MOM与MOM$^-$的对比也可以发现,MOM较MOM$^-$加入了基于结构的负采样，表中MOM的匹配效果也优于MOM$^-$，所以，以上结果表明，充分考虑本体的结构信息有助于提升本体匹配的效果。
+
+\begin{table}[!h]
+	\centering
+	\footnotesize
+	\caption{MOM与基于字符串的基准匹配系统在FMA-NCI-small中的结果对比表}
+	\label{tab:result9}
+    \renewcommand\arraystretch{1.5}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Methods& \multicolumn{5}{c|}{FMA-NCI-small} \\
+		&Number & Correct& P &R & F1\\\hline
+		StringEquiv & 1501 & 1389 & 0.925  &0.517 &0.663   \\\hline
+		StringEquiv-N & 1716 & 1598 & 0.931  &0.595 &  0.726 \\\hline
+		StringEquiv-S & 2343 & 2082 & 0.889  &0.775 &  0.828 \\\hline
+		StringEquiv-SR & 2343 & 2082 & 0.889  &0.775 &  0.828 \\\hline
+		StringEquiv-NS & 2464 & 2200 & 0.893  &0.819 &  0.854  \\\hline
+		StringEquiv-NSR & 2467 & 2203 & 0.893  &0.820 &  0.855  \\\hline
+		MOM$^-$&  2471   &  2192  &  0.887  & 0.809   & 0.846    \\\hline
+		MOM&  2470  & 2195  &    0.889 &   0.817 &   0.851  \\\hline
+	\end{tabular}
+\end{table}}
+
+}
+\noindent \textbf{2.MOM多视角结合与单个预训练模型的结果对比实验}
+\\
+{\songti\xiaosihao 本实验针对MA-NCI-FMA数据集，将本文的MOM,MOM$^-$,MOM-S,MOM-L,MOM-R,MOM-RS方法进行对比，以上方法中唯一的变量因素为不同的方法对应的视角不同，通过该实验来验证不同的视角是否可以学习到不同方面的特征，多视角的融合是否有助于提升本体匹配的效果。其中,MOM和MOM$^-$ 方法训练时共享同组参数，其他模型的参数也如表\ref{tab:canhsu}所示。实验中也对比了对于同一视角的模型在不同的阈值下模型的匹配效果。
+
+\begin{table}[!h]
+	\centering
+	\caption{MOM分别将不同视角的模型组合后的效果对比表}
+	\footnotesize
+	\label{tab:result2}
+    \renewcommand\arraystretch{1.5}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Methods &Number & Correct& P &R & F1\\\hline
+		TFIDF (threshold$=0.8$) &  985        &    976    &    0.991         &   0.644        & 0.780     \\\hline
+		MOM-$L$ (threshold$=0.8$)     & 1286& 1175& 0.914  & 0.775 &   0.839  \\\hline
+		MOM-$S^-$ (threshold$=0.95$)  & 1836& 1109      &    0.604   & 0.732  & 0.662    \\\hline
+		MOM-$S$ (threshold$=0.95$)    & 1189& 1097& 0.923  & 0.724 &   0.811  \\\hline
+		MOM-$R$ (Random initialization, threshold$=0.95$) &    709   &   680       &  0.959   &  0.449   &  0.612      \\\hline
+		MOM-$R$ (loss function \ref{Pretaining},  threshold$=0.95$)     & 833& 789   & 0.948    & 0.520 &   0.672  \\\hline
+		MOM-$RS^-$ (threshold$=0.95$)   & 1271& 1147& 0.902  & 0.757 &   0.823  \\\hline
+		MOM-$RS$ (threshold$=0.95$)   & 1237& 1138& 0.920  & 0.751 &   0.827  \\\hline
+        MOM-$S^-$ (threshold$=0.95$)  & 1821& 1110      &    0.610   & 0.733  & 0.666    \\\hline
+        MOM$^-$&1484 & 1296   & 0.873  & 0.855 &  0.864 \\\hline
+        MOM&1445 & 1287   & 0.891  & 0.849 &  0.869  \\\hline
+	\end{tabular}
+\end{table}
+\indent 实验结果如表\ref{tab:result2}，\ref{tab:result3}所示，表\ref{tab:result2}展示了MOM分别将不同视角的模型组合后的效果对比。对比数据可以发现，将任意的两个不同视角模型的匹配结果组合后，匹配效果会比单个视角的模型匹配效果要好，同时三个视角融合后的匹配效果即MOM无论是正确率，召回率还是F值都优于其他任意组合或模型的效果，这也说明不同视角的模型所学特征是存在差别的，不同方面的特征融合后，最终才有MOM的整体效果的提升。
+
+
+\indent 为进一步确定以上结论，本文通过表\ref{tab:result3}中的结果进一步说明。表中的结果指将三个视角的模型匹配结果互相比较，并与他们的组合进行比较，可以发现，不同视角的模型总能找到不同于其他视角的匹配，这也进一步证明了不同视角的模型所学特征存在互补性，多视角的建模方式在本体匹配任务中是有效的。
+
+\begin{table}[!h]
+	\centering
+	\caption{MOM不同视角的模型效果对比}
+	\label{tab:result3}
+    \renewcommand\arraystretch{1.5}
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		              &MOM-$L$ & MOM-$S$& MOM-$R$ &MOM-$LS$ & MOM-$LR$ & MOM-$SR$ \\\hline
+		MOM-$L$ &  --  &  176  &   463  & --    &  --     &    154    \\\hline
+		MOM-$S$ &  99  &   -- &   354  & --   &   45    &  --      \\\hline
+		MOM-$R$  & 78   & 46   &   -- &   24  &   --    &    --    \\\hline
+	\end{tabular}
+\end{table}
+
+}
+
+\ifx\allfiles\undefined
 \end{document}
+\fi

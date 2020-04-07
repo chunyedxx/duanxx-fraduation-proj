@@ -7,16 +7,16 @@
 \chapter{预备知识}
 \thispagestyle{fancy} \fancyhead[L]{\songti \wuhao
 重庆师范大学硕士学位论文}\fancyhead[R]{\songti \wuhao 3~预备知识}
- \songti\xiaosihao{本章主要介绍本文研究内容中所涉及的先验知识及相关概念，主要包括：知识图谱表示学习模型，“黑箱”优化问题，HORD算法，BERT模型}
+ \songti\xiaosihao{本章主要介绍本文研究内容中所涉及的先验知识及相关概念，主要包括：知识图谱表示学习模型，“黑箱”优化问题，HORD算法，BERT模型。}
 
 \section{知识图谱表示学习模型}
 \subsection{知识图谱表示学习}
 {\songti\xiaosihao 深度学习技术作为人工智能领域的核心技术之一，被广泛应用于机器视觉，语音识别，自然语言处理等众多领域。深度学习实现了数据的分布式表示，采用稠密的低维实值向量来表示数据的含义，而表示学习正是实现这类表示的方法。表示学习，是对数据表征的学习，它从数据中提取有用的信息，以便于构建机器学习模型\cite{rl}，表示学习的发展也影响了知识图谱的表示形式，从而产生了知识图谱表示学习（也可称为知识表示学习）。知识图谱表示学习旨在将知识图谱中的实体和关系借助模型的学习表示成低维实值向量，进而通过向量之间的关系来描述实体之间的语义关联。}
 \\
 \subsection{知识图谱表示学习模型}
-{\songti\xiaosihao 本节重点介绍本文研究内容中涉及的若干种知识图谱表示学习方法。按是否引入额外信息为区分标准，知识图谱表示学习方法可分为仅利用三元组的方法和引入额外信息的方法\cite{wangquan}，表示学习模型众多，本节主要介绍本文用到的仅利用三元组的方法，仅利用三元组的方法又包括基于转移距离的方法和基于语义匹配的方法\cite{wangquan}，基于转移距离的方法有TransE\cite{transe},TransH\cite{transh},TransR\cite{transr},TransD\cite{transd}等，基于语义匹配的方法有DistMult\cite{dist},ComplEx\cite{comp},Conve\cite{conv}等。接下来以TransE,TransH,TransR 为例，进行介绍。
+{\songti\xiaosihao 本节重点介绍本文研究内容中涉及的若干种知识图谱表示学习方法。按是否引入额外信息为区分标准，知识图谱表示学习方法可分为仅利用三元组的方法和引入额外信息的方法\cite{wangquan}，表示学习模型众多，本节主要介绍本文用到的仅利用三元组的方法，仅利用三元组的方法又包括基于转移距离的方法和基于语义匹配的方法\cite{wangquan}，基于转移距离的方法有TransE\cite{transe},TransH\cite{transh},TransR\cite{transr},TransD\cite{transd} 等，基于语义匹配的方法有DistMult\cite{dismult},ComplEx\cite{compiex},ConvE\cite{conve}等。接下来以TransE,TransH,TransR为例，进行介绍。
 
-TransE
+\noindent \textbf{TransE}
 
 \begin{figure}[!h]
 \centering
@@ -26,11 +26,11 @@ TransE
 \end{figure}
 
 TransE是由Bordes等人提出的将任意知识图谱三元组$(h,r,t)$中的关系$r$看作实体间的转移向量，实现头实体向量$h$和尾实体向量$t$之间的转移操作的方法。如图\ref{fig:transe}所示：对于三元组$(h,r,t)$，模型尽可能使得$h + r \approx t$，所以模型的评分函数定义为：
-\[{f_{TransE}}(h,r,t) =  \left\| {h + r - t} \right\|\]\eqno{1}
+\[{f_{TransE}}(h,r,t) =  \left\| {h + r - t} \right\|\]
 该函数意在表示$h + r$与$t$之间的距离，而这里的$\left\|  \cdot  \right\|$指1范数或2范数距离，即${\left\| {h + r - t} \right\|_1} = \sum\nolimits_{i = 1}^k {\left| {{h_i} + {r_i} - {t_i}} \right|}$，${\left\| {h + r - t} \right\|_2} = \sqrt {\sum\nolimits_{i = 1}^k {{{\left| {{h_i} + {r_i} - {t_i}} \right|}^2}} }$，距离越小，则该三元组成立的可能性就越大，置信度越高。
 
 \indent 构建模型过程中，为增强模型对于正确与错误三元组的区分能力，TransE采用了合页损失函数，定义了如下的损失函数：
-\[L = \sum\limits_{(h,r,t) \in \xi } {\sum\limits_{(h',r',t') \in \xi '} {\max (0,{f_{TransE}}(h,r,t) + \gamma  - {f_{TransE}}(h',r',t'))} } \]\eqno{2}
+\[L = \sum\limits_{(h,r,t) \in \xi } {\sum\limits_{(h',r',t') \in \xi '} {\max (0,{f_{TransE}}(h,r,t) + \gamma  - {f_{TransE}}(h',r',t'))} }\]
 
 其中，$\xi$是所有正确三元组$(h,r,t)$的集合，${\xi '}$为错误三元组${(h',r',t')}$的集合，两者构成模型的训练数据集， $\gamma$为正例评分与负例评分之间的间隔，该函数意在使得正例得分尽可能小，负例得分尽可能大，同时使得两者之间的间隔要大于$\gamma$，从而提升模型的判别能力。
 
@@ -47,17 +47,17 @@ TransE是由Bordes等人提出的将任意知识图谱三元组$(h,r,t)$中的关系$r$看作实体间的转
 
 \indent TransH,TransR,TransD都是基于TransE的改进模型，与TransE拥有类似的损失函数及训练方式。而TransE模型在一对多或多对一的复杂三元组关系下，效果不理想，例如：给定任意一个头实体会对应多个尾实体的关系$r$，则存在$(h,r,{t_1})$和$(h,r,{t_2})$，因为$h + r \approx {t_1}$，$h + r \approx {t_2}$，所以有${t_1} \approx {t_2}$，这便无法区分${t_1}$和${t_1}$。为解决这一问题，TransH,TransR,TransD分别做出了不同程度的改进，此外，TransH将TransE的负采样方式改进为采用根据概率分布进行负采样的方式。下面逐一介绍这些模型的评分函数构造的思想。
 
-TransH
+\noindent \textbf{TransH}
 
 \indent Wang等人提出了TransH模型，为解决TransE在一对多或多对一的三元组关系下，效果不理想的问题，TransH规定实体的表示由不同的关系所决定，不同的关系对应不同的超平面，如图\ref{fig:trans}，对任意三元组$(h,r,t)$，该模型将头实体$h$和尾实体$t$沿关系$r$所在超平面的法向量$ {{\rm{w}}_r}$投影到关系$r$所在平面中，所以：
 \[{h_r} = h - {\rm{w}}_r^Th{{\rm{w}}_r},{t_r} = t - {\rm{w}}_r^Tt{{\rm{w}}_r}\]
 因此，TransH采用与TransE类似的思想，构建评分函数：
-\[{f_{TransH}}(h,r,t) =  \left\| {h_r + r - t_r} \right\|\]\eqno{3}
+\[{f_{TransH}}(h,r,t) =  \left\| {h_r + r - t_r} \right\|\]
 
-TransR
+\noindent \textbf{TransR}
 
 \indent TransH虽然实现了不同关系，实体的表示，但依然假设实体与关系处于同一向量空间，这也影响了TransH模型的表示能力，为进一步弱化该问题的影响，Lin等人提出了TransR模型，TransR认为实体和关系处于不同空间，在映射矩阵$M_r$作用下，将实体投影到关系空间中，从而有：
-\[{h_r} = {M_r}h,{t_r} = {M_r}t\] \eqno{4}
+\[{h_r} = {M_r}h,{t_r} = {M_r}t\]}
 
 \section{HORD算法}
 \subsection{HORD算法}
@@ -70,12 +70,45 @@ TransR
 {s.t.}&{\theta  = \arg \min }
 \end{array}f(x,\theta ;{Z_{train}})
 \end{array}\]
-\eqno{5}
 
-\indent 超参数调节较为流行的一类方法是基于贝叶斯的优化方法，例如：基于高斯过程的方法以及基于树结构的方法等，与这类算法相比，HORD算法能够同时优化连续超参数与整数超参数，并且可以以更少的估值次数找到较好的验证误差。表示学习模型的参数包括训练轮数（Epoch），向量维数，批次数（nbatchs）,$\gamma$的大小，以及负采样率，学习率，既包含整数也包含连续实数，并且训练轮数常常设置比较大，无论是人工经验或者基于贝叶斯类优化方法调参都是一项十分耗时的任务。而HORD算法较可以较少的估值次数很好的实现既包含整数也包含连续数的超参数优化。
+\indent 超参数调节较为流行的一类方法是基于贝叶斯的优化方法，例如：基于高斯过程的方法以及基于树结构的方法等，与这类算法相比，HORD算法能够同时优化连续超参数与整数超参数，并且可以以更少的估值次数找到较好的验证误差。表示学习模型的参数包括训练轮数（epoch），向量维数，批次数（nbatchs）,$\gamma$的大小，以及负采样率，学习率，既包含整数也包含连续实数，并且训练轮数常常设置比较大，无论是人工经验或者基于贝叶斯类优化方法调参都是一项十分耗时的任务。而HORD算法较可以较少的估值次数很好的实现既包含整数也包含连续数的超参数优化。
 
-\indent $f(x)$非常复杂并且没有显式表达式，所以求解大规模参数的问题5效率不高。为提高优化参数的效率，HORD算法\cite{hord}利用径向基函数插值模型构建响应面模型，通过动态超参数坐标搜索来找到整数或连续值超参数的近似最优配置。HORD算法的主要思想包含以下几步：第1步，借助径向基插值函数构建响应面模型；然后设置待优化参数的范围与初始采样点个数以及最大迭代步数，通过拉丁超立方体采样得到多组变量与函数值的初始点对${{\rm A}_{{n_0}}} = \{ ({x_i},f({x_i}))\} _{i = 1}^{{n_0}}$；第2步，通过这些点对${{\rm{A}}_{{n_0}}}$，来得到响应面模型的解析式；第3步，借助当前响应面模型，并结合动态坐标扰动\cite{dycors}，求得最优值点${x_ * }$，同时计算出对应的函数值$f({x_ * })$；第4步，将当前最优点对并入初始点对${{\rm{A}}_{{n_0}}} = {{\rm{A}}_{{n_0}}} \cup \{ ({x_*},f({x_*}))\} $，第5步，在未达到最大步数时，重复步骤2至步骤4。}\\
+\indent $f(x)$非常复杂并且没有显式表达式，所以求解大规模参数的问题5效率不高。为提高优化参数的效率，HORD算法\cite{hord}利用径向基函数插值模型构建响应面模型，通过动态超参数坐标搜索来找到整数或连续值超参数的近似最优配置。已知可行的$n$种超参数配置${x_i}(i = 1,2,3, \ldots ,n)$，验证误差${f_i}(i = 1,2,3, \ldots ,n)$，这里$f_i=f(x_i)$，径向基函数响应面模型具体构造如下：
+\[{S_n}(x) = \sum\limits_{i = 1}^n {{\lambda _i}\phi (\left\| {x - {x_i}} \right\|)}  + p(x)\]
 
+这里$\phi (r) = {r^3}$，$p(x) = {b^T}x + a$，$b = {\left[ {{b_1}, \ldots ,{b_d}} \right]^T} \in {R^d}$，$a \in R$是该插值模型的参数，通过求解以下线性系统得到:
+\[\left[ {\begin{array}{*{20}{c}}
+\Phi &P\\
+{{P^T}}&0
+\end{array}} \right]\left[ {\begin{array}{*{20}{c}}
+\lambda \\
+c
+\end{array}} \right] = \left[ {\begin{array}{*{20}{c}}
+F\\
+0
+\end{array}} \right]\]
+
+其中，$\Phi  \in {R^{n \times n}}$，${\Phi _{i,j}} = \phi (\left\| {x - {x_i}} \right\|)$，$i,j = 1, \ldots n$，
+\[P = \left[ {\begin{array}{*{20}{c}}
+{{x_1}^T}&{}&1\\
+{}& \vdots &{}\\
+{{x_n}^T}&{}&1
+\end{array}} \right]\lambda  = \left[ {\begin{array}{*{20}{c}}
+{{\lambda _1}}\\
+ \vdots \\
+{{\lambda _n}}
+\end{array}} \right]c = \left[ {\begin{array}{*{20}{c}}
+{{b_1}}\\
+ \vdots \\
+{{b_k}}\\
+a
+\end{array}} \right]F = \left[ {\begin{array}{*{20}{c}}
+{f({x_1})}\\
+ \vdots \\
+{f({x_n})}
+\end{array}} \right]\]
+
+HORD算法的主要思想包含以下几步：第1步，借助径向基插值函数构建响应面模型；然后设置待优化参数的范围与初始采样点个数以及最大迭代步数，通过拉丁超立方体采样得到多组变量与函数值的初始点对${{\rm A}_{{n_0}}} = \{ ({x_i},f({x_i}))\} _{i = 1}^{{n_0}}$；第2步，通过这些点对${{\rm{A}}_{{n_0}}}$，来得到响应面模型的解析式；第3步，借助当前响应面模型，并结合动态坐标扰动\cite{dycors}，求得最优值点${x_ * }$，同时计算出对应的函数值$f({x_ * })$；第4步，将当前最优点对并入初始点对${{\rm{A}}_{{n_0}}} = {{\rm{A}}_{{n_0}}} \cup \{ ({x_*},f({x_*}))\} $，第5步，在未达到最大步数时，重复步骤2至步骤4。
 }\\
 
 \ifx\allfiles\undefined

@@ -5,63 +5,352 @@
 \else
 \fi
 
-\chapter{实验与评估}
+\chapter{基于HORD算法对MultiOM的改进模型MOMWH}
 \thispagestyle{fancy} \fancyhead[L]{\songti \wuhao
-重庆师范大学硕士学位论文}\fancyhead[R]{\songti \wuhao 4~实验与评估}
-\section{评估指标与数据集}
-  {\songti\xiaosihao 
-  
-  我们从OAEI\footnote{http://oaei.ontologymatching.org/}(Ontology Alignment Evaluation Initiative)的Anatomy Track中收集生物医学本体，这是一项吸引了世界各地的众多参与者的年度活动，旨在评估本体匹配系统。此外，该活动还为所有参与系统提供统一的评价指标，以准确率，召回率和F 值。}\\
+重庆师范大学硕士学位论文}\fancyhead[R]{\songti \wuhao 5~基于HORD算法对MultiOM的改进模型MOMWH}
+{\songti\xiaosihao 本章主要介绍针对现有方法本文提出的问题问题三，本文设计的基于HORD算法对MultiOM的改进模型MOMWH，以下将从MOMWH模型的介绍，以及实验评估两个方面进行详细介绍。
 
-\section{基于多视角的本体匹配模型MuitiOM的评估结果}
-    {\songti\xiaosihao 为了验证MultiOM的有效性，我们使用Python借助TensorFlow\footnote{https://www.tensorflow.org/}（一种非常流行的深度学习框架）来实现我们的方法。采用OWLAPI\footnote{http://owlapi.sourceforge.net/}（用于管理OWL本体的工具）本体解析工具来获得本体信息。实验是在具有64GB内存和TiTAN XP GPU的Intel Xeon E5-2630 V4 CPU的个人工作站上进行的。我们的方法12可以与数据集和结果一起下载。}\\
-\subsection{实验设置}
-{\songti\xiaosihao 我们选择几种策略来构建基准值以验证我们模型的有效性。以下是我们实验策略的构造细节，这里
+\section{基于HORD算法对MultiOM的改进模型MOMWH}
+{\songti\xiaosihao MOM模型分别基于TransE，TransR模型在结构视角模块，外部资源视角模块构建表示学习模型，而无论MOM中的表示学习模型，还是现有的TransE，TransR等表示学习模型得到的概念向量表示都非常依赖模型的参数。MOM中的表示学习模型与TransE，TransH，TransR等模型一样，需调节的超参数包括训练轮数（epoch），学习率（r，Learning rate），向量维数（Dimensions），批次数（nbatch）,合页损失中$\gamma$的大小，以及负采样率(nrate，Negative samping rate)，这些参数既包含整数也包含连续数；同时，模型本身的参数量较大，训练的时间成本也比较高，为进一步获得更好的参数，从而改进待匹配概念的表示并提高MOM本体匹配模型的效果，本节考虑采用HORD算法对MOM中的表示学习的超参数进行优化。
 
-\indent -StringEquiv：基于本体中实体名称的字符串等价的基础匹配器。
+\indent HORD算法较现有的贝叶斯类超参数优化方法，如GP\cite{GP},TPE\cite{TPE}等方法，可以以更少的估值代价更加高效的同时优化整数或连续实数类超参数。而MOM中表示学习模型效果依赖于参数的选择，且参数既包含整数也包含连续实数，模型训练的时间成本也较高，而HORD算法较其他方法可以节省估值次数，同时优化整数以及连续实数超参，所以HORD算法是适合用于实现MOM模型超参数优化的方法。
 
-\indent -StringEquiv+Normalization(StringEquiv-N)：先对概念规范化，在进行StringEquiv匹配。
+%\centering
+%\includegraphics[scale=0.6]{HORD.png}
+%\caption{MOMWH模型框架}
+%\label{fig:multiomhord}
+%\end{figure}
 
-\indent -StringEquiv+Synonym(StringEquiv-S)：通过同义词典扩展了概念同义词，在进行StringEquiv匹配。
+\indent 为实现HORD算法对MOM中的表示学习模型参数的优化，进一步优化概念的向量表示，来提升MOM模型的性能，本节提出了如图\ref{fig:multiomhord} 的MOMWH算法框架。因基于上下文视角的预训练模型采用预训练好的词向量，并没有涉及参数优化，所以HORD算法只针对基于MOM-R（外部资源视角的预训练模型）以及基于MOM-S（结构视角的模型）进行参数优化。MOMWH实现的主要过程如图所示，与MOM的不同之处在于MOM采用经验调节参数，来得到概念的向量表示，来进行匹配任务，而MOMWH中，采用HORD算法对MOM-R模型与MOM-S模型的超参数进行优化得到优化后的参数，将模型借助优化后的参数训练得到的向量作为概念的表示，进行后续的本体匹配。
 
-\indent -StringEquiv+Synonym+Reference\_Ontology(StringEquiv-SR)：在StringEquiv-S基础上，引入第三方本体实现概念的映射。
+\begin{algorithm}[htb]
+\caption{使用HORD算法改进MultiOM中表示学习模型超参优化框架}
+\label{alg:Framwork}
+\begin{algorithmic}[1] %这个1 表示每一行都显示数字
+\REQUIRE ~~\\ %算法的输入参数：Input
+初始采样数${n_0} = 2(D + 1)$;\\
+候选点个数$m = 100D$;\\
+最大迭代步${N_{\max }}$;\\
+初始迭代步$n = {n_0}$;
+\ENSURE ~~\\ %算法的输出：Output
+优化后的模型参数配置${x_{better}}$;\\
+${x_{better}}$参数配置下的概念表示;
+\STATE 使用拉丁超立方体采样$n_0$个初始超参配置，记$\{ {x_i}\} _{i = 1}^{{n_0}}$;
+\STATE 采用$x_i$训练模型，得到验证误差$f({x_i})$，$i = 1, \ldots ,{n_0}$，记${{\rm A}_{{n_0}}} = \{ \{ {x_i},f({x_i})\}$;
+\STATE 使用${{\rm{A}}_n}$构建径向基响应面模型${S_n}(x)$;
+\STATE 计算当前最优点${x_{better}} = argmin\left\{ {f({x_i}):i = 1,...,n} \right\}$;
+\STATE 计算坐标扰动的概率${\varphi _n}$;
+\label{xuyao1}
+\STATE 构建由$m$个候选点${t_n}_{1:m}$组成的候选点集;\\
+    对${t_n}_{1:m}$中每个候选点$y_i$:\\
+      令${y_i}={x_{better}}$;\\
+      按扰动概率${\varphi _n}$扰动$y_i$对应分量；\\
+      对被扰动分量添加扰动${\delta _i}$ (${\delta _i} \sim N(0,{\sigma ^2})$);
+\label{xuyao2}
+\STATE 根据候选点计算$V_n^{ev}({t_n}_{1:m})$，$V_n^{dn}({t_n}_{1:m})$，${W_n}({t_n}_{1:m})$;
+\label{xuyao3}
+\STATE 根据当前${W_n}({t_n}_{1:m})$，计算当前最优点${x_ * } = argmin\left\{ {{W_n}({t_n}_{1:m})} \right\}$;
+\STATE 根据当前最优参数配置$x_ * $，训练模型，得到当前验证误差$f({x_ * })$;
+\STATE 调整方差${\delta _i}$;
+\STATE 更新点值对${{\rm A}_{{n_0}}} = {{\rm A}_{{n_0}}} \cup \{ ({x_ * },f({x_ * })\}$；
+\STATE 如果$n < {N_{\max }}$，跳至步骤3，n += 1，否则终止算法；
+\label{code:fram:select}
+\RETURN $x_*$，$x_*$参数配置下，概念向量表示; %算法的返回值
+\end{algorithmic}
+\end{algorithm}
 
-\indent -StringEquiv+Synonym+Normalization(StringEquiv-NS)：通过同义词典扩展概念同义词,再进行StringEquiv-N匹配。
+\indent 采用HORD优化MultiOM中表示学习超参实现本体匹配的大致步骤如下：以MOM-R为例，第一步，设置HORD算法的参数，初始采样点的个数$n_0$，最大迭代步数$N_{max}$，以及确定模型各个参数可行域D；第二步，通过拉丁超立方体采样获得初始点$\{ {x_i}\} _{i = 1}^{{n_0}}$列，这里${x_i}$ 表示一组向量，即一组参数；第三步，采用每一组参数${x_i}$，以MOM中的数据集训练模型MOM-R，得到点对${{\rm A}_{{n_0}}} = \{ \{ {x_i},f({x_i})\} _{i = 1}^{{n_0}}$，$f({x_i})$表示模型训练后得到的验证误差值（实际可以是损失，错误率等）；第四步，采用${{\rm A}_{{n_0}}}$ 更新径向基响应面模型；第五步，通过当前响应面模型求得最优点${x_ * }$，再采用参数${x_ * }$训练MOM-R模型得到$f({x_ * })$，更新${{\rm A}_{{n_0}}} = {{\rm A}_{{n_0}}} \cup \{ ({x_ * },f({x_ * })\}$；第六步在未达到最大步数$N_{max}$时，重复步骤四至步骤五；最后得到改进后的参数以及概念的向量表示，再采用MultiOM中的匹配方法得到最终的匹配。具体算法过程如算法\ref{alg:Framwork}所示。
 
-\indent -StringEquiv+Normalization+Synonym+Reference\_Ontology(StringEquiv-NSR)：对概念的字符串表示进行规范化后，进行StringEquiv-SR匹配。
+\indent 其中，扰动概率${\varphi _n}$（对应步骤\ref{code:fram:classify}）是关于迭代次数${n_0} \le n \le {N_{\max }} - 1$的严格递减函数，其计算表达式为：
+\[{\varphi _n} = {\varphi _0}[1 - \frac{{\ln (n - {n_0} - 1)}}{{\ln ({N_{\max }} - {n_0})}}]{n_0} \le n \le {N_{\max }}\]
+\indent 在步骤\ref{xuyao2}和\ref{xuyao3}旨在从候选点中选出最可能的极小点作为新的采样点，通过计算每个候选点的${V^{ev}}(t)$和${V^{dm}}(t)$作为其度量标准，函数定义如下：
+\[{V^{ev}}(t) = \left\{ {\begin{array}{*{20}{c}}
+{\frac{{S(t) - {S^{\min }}}}{{{S^{\max }} - {S^{\min }}}}}&{{S^{\max }} \ne {S^{\min }}}\\
+{\rm{1}}&{otherwise}
+\end{array}} \right.\]
+\[{V^{dm}}(t) = \left\{ {\begin{array}{*{20}{c}}
+{\frac{{{\Delta ^{\max }} - \Delta (t)}}{{{\Delta ^{\max }} - {\Delta ^{\min }}}}}&{{\Delta ^{\max }} \ne {\Delta ^{\min }}}\\
+{\rm{1}}&{otherwise}
+\end{array}} \right.\]
+其中$\Delta (t) = \mathop {\min }\limits_{1 \le i \le n} \left\| {t - {t_i}} \right\|$，候选点最终的得分为${V^{dm}}(t)$和${V^{ev}}(t)$的加权和，具体如公式\ref{equ:spec}所示,最后取得分最低的候选点为新的采样点。
+\begin{equation}
+\label{equ:spec}
+W(t) = \omega {V^{ev}}(t) + (1 - \varpi ){V^{dm}}(t)
+\end{equation}
+}\\
+\section{实验与评估}
 
-\indent MultiOM训练时，我们使用随机梯度下降（SGD）作为优化方法，超参数的配置如下所示：概念和矩阵的维度设置为${\rm{d=\{ 50,100\}}}$和$ {{\rm{d}}_M}{\rm{ = }}\{ {\rm{50}} \times {\rm{50}},{\rm{100}} \times {\rm{100}}\}$。SGD的批次数设置为${\rm{Nbatch=\{ 5,10}},20,50\}$。学习率$r$ 可选参数有{0.01,0.02,0.001} 和对于每个正例，负采样率可选的有{1,3,5,10}。训练的轮数（epoch）设置为1000。在基于上下文模块中，本体概念中单词向量表示主要来自文献\cite{}的链接\footnote{https://doi.org/10.5281/zenodo.1173936}，其维数设置为200。 对于一些没有向量表示的单词，我们将其随机初始化，并满足${\left|{\left|{{t_{1i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$和${\left|{\left|{{t_{2i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$。 在外部资源视角的模块中，我们使用TransE\cite{}，ConvE\cite{}和预训练函数7 初始化第三方本体中概念的向量表示。在损失函数7中将$a$设置为{0.01,0.05,0.10}，以控制概念向量的语义距离。对于负采样策略，我们利用本体中概念的结构信息。当针对一个概念进行负采样替换时，我们参照这个概念的结构关系信息，根据剩余概念与该概念的结构关系进行替换。负采样替换时，与该概念存在“disjointwith”关系的概念优先级最高，并且排除与概念存在“SubClassOf”关系和“PartOF”关系的概念。最后，通过多视角的组合匹配策略生成MultiOM最终匹配结果，并将相关阈值设置为${\delta _1} = 0.8$，${\delta _2} = 0.95$, ${\delta _1} = 0.65$, ${\delta _4} = 0.3$。
-为突出我们提出的负采样的效果，在模块标签或合并标签上添加符号“-”表示该模块未配备针对结构关系量身定制的负采样。}\\
-\subsection{预测结果与分析}
-{\songti\xiaosihao 表\ref{tab:multiom}列出了MultiOM与各种基准值的匹配结果。我们观察到，合并这些策略可以提升匹配数量。尽管稍微降低了匹配的准确率，但总体上也可以提高召回率和F值。相对而言，MultiOM进一步提高了比对的召回率和F值，因为利用了结构信息，进一步改进概念的向量表示可以获取更多相似的概念并发现更多潜在的匹配，特别是，MultiOM的性能优于MultiOM-，主要原因是采用结构关系有助于区分概念的向量表示。
+\subsection{数据集}
+{\songti\xiaosihao 本节简要概述在本体匹配实验中使用的四种本体，其中两个本体FMA(Foundational Model of Anatomy)和MA(Adult Mouse
+anatomical)分别表示解剖学本体和成年小鼠解剖学本体，二者都是纯粹的解剖学本体论，而另外两个SNOMED CT和NCI是涉及更广的生物医学本体，解剖学只是它们描述的一个子领域\cite{}。虽然这些本体的最新版本是可用的，但是本文在整个本体匹配任务中参考了出现在OAEI(Ontology Alignment Evaluation Initiative) 中的版本，以便在本体匹配系统之间进行比较。
 
-\begin{table}[!h]
+\indent FMA(Foundational Model of Anatomy)：这是一个一直被更新的本体，自1994年由华盛顿大学开发并维护\cite{FMA}，其目的是以机器可读的形式概念化人体的表型结构。
+
+\indent MA(Adult Mouse Anatomical Dictionary)：该本体是描述成年小鼠解剖结构的结构的词汇表\cite{MA}。
+
+\indent NCI(NCI Thesaurus)：该本体提供了癌症的标准词汇\cite{NCI}，其解剖学子域描述人类自有的生物结构、液体和物质。
+
+\indent SNOMED(SNOMED Clinical Terms)：该本体是一个系统化，组织化的机器可读的医学术语集合，提供临床文档和报告中使用的代码、术语、同义词和定义\cite{SNOM}。
+
+\indent 以上本体的概念及对应匹配数量具体如图\ref{tab:dataset}：
+\begin{table}[h]
 \centering
-\includegraphics[scale=0.6]{result1.png}
-\caption{MultiOM与基准方法的比较}
-\label{tab:multiom}
+\caption{本体概念数及对应匹配数量}
+\label{tab:dataset}
+\renewcommand\arraystretch{1.5}
+\begin{tabular}{ccccc}
+\hline
+ 源本体&概念数&目标本体&概念数&匹配数\\
+\hline
+    MA&2744&NCI&3304&1489\\
+\hline
+ FMA&3696&NCI&6488&2504\\
+\hline
+  FMA&10157&SNOMED&13412&7774\\
+\hline
+\end{tabular}
+\end{table}
+}
+\subsection{评估指标}
+  {\songti\xiaosihao
+  OAEI为本体匹配提供了统一的评估标准，评估的指标主要是：匹配的准确率，召回率和F1值。为阐述以上三个指标含义，首先介绍以下概念：
+
+  \indent      TP(True Positives) ：表示模型将正例预测为正例的数据条数；
+
+  \indent      FP(False Positives)：表示模型将负例预测为正例的数据条数；
+
+  \indent      FN(False Negatives)：表示模型将正例预测为负例的数据条数；
+
+  \indent      TN(True Negatives) ：表示模型将负例预测为负例的数据条数；
+
+\indent 所以，由以上四个参数值，可根据以下公式求得具体指标的值，其中total表示待预测数据的总数。
+
+  \indent     准确率(acc)：$acc = \frac{{TP + TN}}{{{\rm{total}}}}$
+
+  \indent     召回率(rec)：$rec = \frac{{TP}}{{TP + FN}}$
+
+  \indent     F1       值：$F1 = \frac{{2 * acc * rec}}{{acc + rec}}$}
+
+
+\subsection{实验环境}
+{\songti\xiaosihao 为了验证本文工作的有效性，本文使用Python借助TensorFlow\footnote{https://www.tensorflow.org/}深度学习框架来实现本文提出的方法。采用OWLAPI\footnote{http://owlapi.sourceforge.net/}（用于管理OWL本体的工具）本体解析工具来获得本体信息。实验是在具有64GB内存和TiTAN XP GPU 的Intel Xeon E5-2630 V4 CPU的个人工作站上进行的。}
+
+\subsection{词汇释义表}
+
+\begin{table}[h]
+\centering
+\caption{词汇释义表}
+\label{tab:dataset}
+\renewcommand\arraystretch{1.5}
+\begin{tabular}{ll}
+\hline
+ 词汇简称&词汇含义\\
+\hline\\
+MOM&本文提出的本体匹配模型（Multi-view Ontology Matching Model）简称\\
+MOMWH&采用HORD算法对MOMM超参进行优化的模型效果\\
+MOM-S&MOM模型中基于结构负采样视角的子模型效果\\
+MOM-L&MOM模型中基于上下文视角的子模型效果\\
+MOM-R&MOM模型中基于外部资源视角的子模型效果\\
+MOM-SR&MOM基于外部资源模型的效果与结构负采样模型效果的融合结果\\
+MOM$^-$&MOM模型未采用结构负采样的结果\\
+MOMWH$^-$&MOMWH模型未采用结构负采样的结果\\
+StringEquiv&基于字符串等价的基础匹配器\\
+StringEquiv-N&采用概念规范化的StringEquiv匹配器\\
+StringEquiv-S&采用同义词外部资源的StringEquiv匹配器\\
+StringEquiv-SR&采用同义词，第三方本体外部资源的StringEquiv匹配器\\
+StringEquiv-NS&采用字典，第三方本体外部资源的StringEquiv匹配器\\
+StringEquiv-NSR&采用同义词，字典，第三方本体外部资源的StringEquiv匹配器\\
+\hline
+\end{tabular}
 \end{table}
 
-\indent 表2展示了具有不同视角的预训练模型进行组合后效果的比较。总体而言，合并更多的不同视角模型的匹配结果，匹配效果会更好。对于词法视图模块，就F1 度量而言，软化的TF-IDF（表示为OM-L）比原始TF-IDF更好，这是因为表示令牌的连续向量比用于计算概念相似性的单个字符串可以提供更多的语义信息。对于资源视图嵌入模块（称为OM-R），ConvE和我们的预训练功能优于随机初始化，因为它们两者都可以利用结构关系在语义空间中采用概念的矢量表示。但是，与功能7花费20 分钟相比，ConvE花了将近24个小时来获得概念的向量表示。请注意，TransE不适合预训练概念的矢量表示。我们分析了本体的稀疏结构关系及其简化的得分函数限制了它的能力。总体而言，我们观察到在嵌入视图模块中使用新的负采样策略（即OM-S，OM-RS18 19，MultiOM）有助于进一步提高比对的精度和F1 量度的质量。
-表3指出了不同的嵌入视图模块是相互补充的。由于OM-L可以获得比其他映射更多的映射，因此与OM-S，OM-R及其合并案例相比，它可以发现更多正确的映射。
-表3：在每个嵌入视图模块中发现的外部正确映射
-表4列出了MultiOM与基于特征工程的OAEI2018顶级系统和基于表示学习的SCBOW + DAE（O）的比较。它表明，就F1-measure而言，MultiOM的初步结果可以与几种有前途的匹配系统（例如FCAMapX和SANOM）竞争。但是，与最佳系统（例如AML和SCBOW + DAE（O））相比，仍然存在差距。我们分析了基于词法的模块和简化的组合策略可能成为MultiOM的主要瓶颈。得益于叙词表（例如uMlS）和优化的组合策略，大多数排名靠前的系统都能获得更好的OM任务性能。另外，大多数系统（例如AML，LogMap）使用对齐调试技术，这有助于进一步提高对齐质量。但是我们在当前版本中没有采用这些技术。我们将这些问题留在未来的工作中。
-5结论与未来工作
-在本文中，我们提出了一种基于多视图嵌入技术的替代OM框架，其中基于交叉视图设计了不同的损失函数
+\subsection{实验结果}
 
-}\\
-\section{基于多视角的生物医学本体匹配模型--MuitiOM的评估结果}
-    {\songti\xiaosihao 待完善}\\
-    \subsection{实验设置}
-        {\songti\xiaosihao 待完善}\\
-    \subsection{本体匹配结果与分析}
-        {\songti\xiaosihao 待完善}\\
-\section{基于BERT模型和HORD算法对MuitiOM的改进的评估结果}
-    {\songti\xiaosihao 待完善}\\
-    \subsection{实验设置}
-        {\songti\xiaosihao 待完善}\\
-    \subsection{本体匹配结果与分析}
-        {\songti\xiaosihao 待完善}\\
+{\songti\xiaosihao 针对现有方法的本文提出的第三个问题，本文设计如下实验，逐步验证MOMWH得建模思想是否正确，是否可以有效解决现有方法的这个问题，具体实验步骤由两部分构成，分别是MOMWH与MOM结果对比实验和MOMWH$^+$与MOMWH,MOM及其他方法结果对比实验。
+
+\indent 本体概念中单词向量表示主要来自文献\cite{BIO}的链接\footnote{https://doi.org/10.5281/zenodo.1173936}，其维数设置为200。对于一些没有向量表示的单词，我们将其随机初始化，并满足${\left|{\left|{{t_{1i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$ 和${\left|{\left|{{t_{2i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$。}
+
+\noindent \textbf{1.MOMWH与MOM结果对比实验}
+
+{\songti\xiaosihao 本实验针对MA-NCI-FMA和FMA-NCI-small-SNOMED两个数据集，将本文的MOMWH,MOMWH$^-$,MOM,MOM$^-$以及MOMWH和MOM中多个不同视角的模型，将MOMWH与MOM中相对应的模型进行对比，以上方法中唯一的变量因素为MOM中的模型参数是人工调节的参数，MOMWH中模型参数一部分为采用HORD算法优化得到的参数，通过该实验来验证HORD算法是否可以改进表示学习模型学得的概念向量表示，是否可以因此提升本体匹配的效果。其中，MOM方法训练与其匹配算法的参数如图，MOMWH模型训练时的参数，实验中也对比了对于同一视角的模型在不同的阈值下模型的匹配效果。
+
+\indent 该实验首先需采用HORD算法对MOM中的表示学习模型MOM-S,MOM-R进行超参数优化。HORD算法的执行与MOM-L或MOM-R训练的方式有所不同，需给出模型（如MOM-S,MOM-R类模型）中待优化超参数的区间范围，而不用给定具体的值。对于模型中没有进行进一步优化的参数，则采用MOM中对应模型相同的参数。
+\begin{table}[!h]
+\label{tab:canhsu2}
+\caption{MOMWH模型中HORD超参调节的参数设置}
+\centering
+\renewcommand\arraystretch{1.5}
+\begin{tabular}{cc}
+\toprule  %添加表格头部粗线
+\midrule  %添加表格中横线
+参数     & 参数值 \\
+\hline
+$d$      & $\{{\rm{50}},{\rm{100}}\}$ \\
+$d_M$    & $\{ {\rm{50}} \times {\rm{50}},{\rm{100}} \times {\rm{100}}\}$ \\
+$nbatch$ & $\left[ {10,60} \right]$\\
+$r$      & $\left[ {0.001,0.05} \right]$\\
+$nrate$  & $\left[ {3,15} \right]$\\
+$epoch$  & $500$\\
+$n_0$    & $6$ \\
+$N_{max}$& $25$\\
+\bottomrule %添加表格底部粗线
+\end{tabular}
+\end{table}
+\indent MOM-S和MOM-R的超参数包括训练轮数（epoch），学习率（Learning rate），向量维数（Dimensions），以及批次数（nbatchs），以及负采样率(nrate)。 为降低参数调节的计算量，提升MOMWH模型效率，本文未对以上六种参数都进行优化。首先，MOM中的表示学习模型的参数规模由向量维数大致确定，而参数的规模应与本体数据集中的概念以及关系的多少有关，在二者数量不变的前提下，可大致确定向量的维数（Dimensions），保证可以适用于匹配任务即可。所以，MOM中未对这两个参数进行调节；其次，训练轮数（Epoch）根据人工经验得到的值为1000，该参数决定了模型学习时间的长短，为保证参数优化后，可以提升MOM的的效率，我们将其固定为500，通过调节剩余的三个参数：学习率（r），批次数（nbatchs）和负采样率(nrate)。所以MOMWH模型的参数设置如表\ref{tab:canhsu2}所示。
+
+\indent MOMWH中通过HORD算法进行超参优化后,MOM-S与MOM-R的最优超参配置对比如表\ref{tab:canhsu3}所示：
+\begin{table}[!h]
+\label{tab:canhsu3}
+\caption{HORD算法进行超参数优化前后的参数对比}
+\centering
+\renewcommand\arraystretch{1.5}
+\begin{tabular}{ccc|cc}
+\toprule  %添加表格头部粗线
+\midrule  %添加表格中横线
+参数名   & \multicolumn{2}{c|}{MOM-S}&\multicolumn{2}{c}{ MOM-R}\\
+         & 优化前   & 优化后   & 优化前  & 优化后 \\
+\hline
+$nbatch$ &   5      &   8      &  10     &   12 \\
+$r$      &   0.0100 &   0.0131 &  0.0100 &   0.0107\\
+$nrate$  &   3      &   6      &  5      &   8\\
+$epoch$  &   1000   &   500    &  1000   &   500\\
+\bottomrule %添加表格底部粗线
+\end{tabular}
+\end{table}
+
+\indent 除了以上经过HORD算法优化过的参数外，其他参数依然与原模型中参数相同。MOMWH与MOM及各种基准匹配结果对比如表\ref{tab:result5}，\ref{tab:result10}，\ref{tab:result6}所示。
+\begin{table}[!h]
+	\centering
+	\footnotesize
+	\caption{MOMWH与MOM以及各种基准系统在MA-NCI下的结果对比}
+	\label{tab:result5}
+    \renewcommand\arraystretch{1.5}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Methods&\multicolumn{5}{c|}{MA-NCI}\\
+		&Number & Correct& P &R & F1\\\hline
+		StringEquiv & 935& 932& 0.997  & 0.615 &   0.761\\\hline
+		StringEquiv-N &992 & 989&  0.997& 0.625 & 0.789\\\hline
+		StringEquiv-S &1100 & 1057& 0.961 & 0.697&  0.808\\\hline
+		StringEquiv-SR & 1162& 1094 & 0.941 & 0.722 &  0.817\\\hline
+		StringEquiv-NS & 1153& 1109& 0.962 & 0.732&   0.831\\\hline
+		StringEquiv-NSR &1211 & 1143  & 0.943  & 0.753 &  0.838\\\hline
+		MOM$^-$&1484 & 1296   & 0.873  & 0.855 &  0.864\\\hline
+		MOM&1445 & 1287   & 0.891  & 0.849 &  0.869\\\hline
+        MOMWH$^-$&1462 & 1296   & 0.886  & 0.855 &  0.870\\\hline
+        MOMWH&1431 & 1290   & 0.901  & 0.851 &  0.0.876\\\hline
+	\end{tabular}
+\end{table}
+
+\indent 如表\ref{tab:canhsu3}所示，采用HORD算法进行超参优化后与优化前的模型参数对比，对比可以发现，超参数优化后，对于同样的模型之前训练需要1000个epoch，而优化后只需要500个epoch，较之前只需要一半的训练次数，极大的提升了模型的效率。
+
+\indent 对比表\ref{tab:result5}，\ref{tab:result10}中的数据，MOMWH无论是准确率，召回率还是F值都较之前的MOM都有所提升，MOMWH-的性能也优于MOM-，并且MOMWH的结果可以与StringEquiv-NSR相当。MOMWH是基于MOM采用HORD算法进行超参优化的模型，显然，经过优化后的参数，可以学到更加准确的特征；另外，无论是MOM 与MOM-还是MOMWH与MOMWH-都说明同利用了改进后的结构负采样，效果依然会有所提高，也进一步验证了本体的结构信息有助于本体匹配任务效果的提升。
+\begin{table}[!h]
+	\centering
+	\footnotesize
+	\caption{MOMWH与MOM以及各种基准匹配在FMA-NCI-small下的结果对比}
+	\label{tab:result10}
+    \renewcommand\arraystretch{1.5}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Methods& \multicolumn{5}{c|}{FMA-NCI-small} \\
+		&Number & Correct& P &R & F1\\\hline
+		StringEquiv & 1501 & 1389 & 0.925  &0.517 &0.663   \\\hline
+		StringEquiv-N & 1716 & 1598 & 0.931  &0.595 &  0.726 \\\hline
+		StringEquiv-S & 2343 & 2082 & 0.889  &0.775 &  0.828 \\\hline
+		StringEquiv-SR & 2343 & 2082 & 0.889  &0.775 &  0.828 \\\hline
+		StringEquiv-NS & 2464 & 2200 & 0.893  &0.819 &  0.854  \\\hline
+		StringEquiv-NSR & 2467 & 2203 & 0.893  &0.820 &  0.855  \\\hline
+		MOM$^-$&  2471   &  2192  &  0.887  & 0.809   & 0.846    \\\hline
+		MOM&  2470  & 2195  &    0.889 &   0.817 &   0.0.851  \\\hline
+        MOMWH$^-$&  2469   &  2192  &  0.888  & 0.809   & 0.847    \\\hline
+        MOMWH&  2466  & 2200  &    0.892 &   0.819 &   0.854  \\\hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[!h]
+	\centering
+	\caption{MOMWH与MOM不同视角模型及其组合后的效果对比}
+	\footnotesize
+	\label{tab:result6}
+    \renewcommand\arraystretch{1.5}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Methods &Number & Correct& P &R & F1\\\hline
+		MOM-$S^-$ (threshold$=0.95$)  & 1836& 1109      &    0.604   & 0.732  & 0.662    \\\hline
+		MOM-$S$ (threshold$=0.95$)    & 1189& 1097& 0.923  & 0.724 &   0.811  \\\hline
+		MOM-$R$ (Random initialization, threshold$=0.95$) &    709   &   680       &  0.959   &  0.449   &  0.612      \\\hline
+		MOM-$R$ (loss function \ref{Pretaining},  threshold$=0.95$)     & 833& 789   & 0.948    & 0.520 &   0.672  \\\hline
+		MOM-$RS^-$ (threshold$=0.95$)   & 1271& 1147& 0.902  & 0.757 &   0.823  \\\hline
+		MOM-$RS$ (threshold$=0.95$)   & 1237& 1138& 0.920  & 0.751 &   0.827  \\\hline
+        MOM$^-$&1484 & 1296   & 0.873  & 0.855 &  0.864 \\\hline
+        MOM&1445 & 1287   & 0.891  & 0.849 &  0.869  \\\hline
+        MOMWH-$S^-$ (threshold$=0.95$)  & 1821& 1110      &    0.610   & 0.733  & 0.666    \\\hline
+		MOMWH-$S$ (threshold$=0.95$)    & 1170& 1099& 0.939  & 0.725 &   0.818  \\\hline
+		MOMWH-$R$ (Random initialization, threshold$=0.95$) &    705   &   680       &  0.965   &  0.449   &  0.613      \\\hline
+		MOMWH-$R$ (loss function \ref{Pretaining},  threshold$=0.95$)     & 824& 794   & 0.964    & 0.524 &   0.679  \\\hline
+		MOMWH-$RS^-$ (threshold$=0.95$)   & 1263& 1147& 0.908  & 0.757 &   0.826  \\\hline
+		MOMWH-$RS$ (threshold$=0.95$)   & 1221& 1140& 0.934  & 0.752 &   0.833  \\\hline
+		MOMWH$^-$&1462 & 1296   & 0.886  & 0.855 &  0.870 \\\hline
+		MOMWH&1431 & 1290   & 0.901  & 0.851 &  0.876  \\\hline
+	\end{tabular}
+\end{table}}
+
+
+\indent 表\ref{tab:result6}展示了MOMWH与MOM分别将不同视角的模型组合后的效果对比。通过各个视角模型的匹配结果详细对比可以发现，采用HORD算法进行参数优化后，基本上对各个视角的匹配结果都有所提升。众多的结果说明，经过参数优化后，不仅可以使得各个模型错误的匹配得以减少同时可以寻找到一些正确匹配，以上结果进一步说明参数优化后可以帮助表示学习模型学得更加合适得特征，获得得概念向量表示更加有效。
+
+\noindent \textbf{2.MOMWH$^+$与MOMWH,MOM及其他方法结果对比实验}
+
+{\songti\xiaosihao 本实验针对MA-NCI-FMA和FMA-NCI-small-SNOMED两个数据集，将本文的MOMWH$^+$与MOMWH,MOM与OAEI2018的顶级系统LogMapBio,XMap等以及SCBOW+DAE方法的匹配效果进行比较。根据之前的实验，发现利用改进后的TF-IDF算法的效果准确率有$0.991$,其召回率不高，主要是因为我们利用的是预训练词向量，只包含其字面语义信息，并未对这些预训练词向量基于当前语境进行改进，所以而未包含该本体匹配任务下的语义信息。考虑到以上原因，本文提出进一步在MOM框架下，基于BERT模型对其进行改进，并采用HORD算法进行超参数优化的MOMWH$^+$模型，具体的对比结果如表\ref{tab:result8} 所示。
+\begin{table}[!h]
+	\centering
+	\caption{本文模型与OAEI2018顶级系统以及基于表示学习的SCBOW+DAE模型在MA-NCI下的效果比较}
+	\label{tab:result8}
+	\footnotesize
+    \renewcommand\arraystretch{1.5}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Methods &\multicolumn{5}{c|}{MA-NCI}\\
+		  &Number & Correct& P &R & F1 \\\hline
+		SCBOW + DAE 	& 1399 & 1356   & 0.969  & 0.906 &   0.938\\\hline
+        \textbf{BertMultiOM+HORD}& \textbf{1436} & \textbf{1363}  & \textbf{0.949}  & \textbf{0.891} &  \textbf{0.919}\\\hline
+		\textbf{BertMultiOM}& \textbf{1441} & \textbf{1363}  & \textbf{0.946}  & \textbf{0.891} &  \textbf{0.918}\\\hline
+        LogMapBio   &1550 & 1376  &  0.888& 0.908 & 0.898\\\hline
+		POMAP++     &1446 &  1329 &  0.919& 0.877 & 0.897\\\hline
+		XMap             &1413 &   1312& 0.929 & 0.865&  0.896\\\hline
+		LogMap        & 1387&   1273  & 0.918 & 0.846&   0.880\\\hline
+		SANOM         &1450 & 1287   & 0.888 & 0.844&  0.865\\\hline
+		FCAMapX      & 1274&  1199   & 0.941 & 0.791 &  0.859\\\hline
+		\textbf{MultiOM}& \textbf{1445} & \textbf{1287}  & \textbf{0.891}  & \textbf{0.849} &  \textbf{0.869}\\\hline
+	\end{tabular}
+\end{table}
+\begin{table}[!h]
+	\centering
+	\caption{本文模型与OAEI2018顶级系统以及基于表示学习的SCBOW+DAE模型在FMA-NCI-small下的效果比较}
+	\label{tab:result11}
+	\footnotesize
+    \renewcommand\arraystretch{1.5}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Methods & \multicolumn{5}{c|}{FMA-NCI-small} \\
+		  &Number & Correct& P &R & F1\\\hline
+		SCBOW + DAE 	& 2282 & 2227  & 0.976 & 0.889    & 0.930 \\\hline
+        \textbf{BertMultiOM+HORD}&  \textbf{2787}  & \textbf{2647}  &    \textbf{0.950} &   \textbf{0.907} &   \textbf{0.928} \\\hline
+		\textbf{BertMultiOM}&  \textbf{2793}  & \textbf{2647}  &    \textbf{0.948} &   \textbf{0.907} &   \textbf{0.927} \\\hline
+        LogMapBio  & 2776  & 2632  & 0.948  & 0.902   & 0.921 \\\hline
+		POMAP++    &2414  &2363  & 0.979  & 0.814    & 0.889 \\\hline
+		XMap       &2315  & 2262 & 0.977  & 0.783   & 0.869 \\\hline
+		LogMap     & 2747 & 2593  & 0.944 &  0.897  & 0.920\\\hline
+		SANOM      & --  & --  & -- & --   & -- \\\hline
+		FCAMapX    & 2828 &  2681  & 0.948 & 0.911   & 0.929 \\\hline
+		\textbf{MultiOM}&  \textbf{2330}  & \textbf{2195}  &    \textbf{0.942} &   \textbf{0.817} &   \textbf{0.875} \\\hline
+	\end{tabular}
+\end{table}
+
+\indent 通过比较表\ref{tab:result8}，\ref{tab:result11}中的数据可以发现，MOMWH$^+$的效果较MOMWH和MOM有了较大幅度的提升，并且从召回率与F值来综合比较,MOMWH$^+$ 的效果比LogMapBio,POMAP++等方法都要有优势。另外与第一名的SCBOW+DAE相比，在FMA-NCI-small-SNOMED数据集中的效果，也与之可以相提并论。
+
+\indent 综上实验，可以进一步验证说明本文提出的方法，可以在一定程度上解决现有基于深度学习的方法的问题，本文充分利用本体中的结构信息，并且对本文提出的基于表示学习的方法MOM等模型进行超参数优化，以四个不同的实验，进一步验证了充分利用本体的结构信息有助于提升本体匹配的效果，采用多视角的建模方式是实现本体匹配任务的有效方式之一，以及采用HORD算法对表示学习模型的超参数进行优化，可以改进其获得概念向量表示，从而提升本体匹配的效果，本文模型MOMWH$^+$，MOMWH也取得了比较好的效果。
+}
 
 \ifx\allfiles\undefined
 \end{document}
