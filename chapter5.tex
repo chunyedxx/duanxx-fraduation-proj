@@ -5,63 +5,16 @@
 \else
 \fi
 
-\chapter{实验与评估}
-\thispagestyle{fancy} \fancyhead[L]{\songti \wuhao
-重庆师范大学硕士学位论文}\fancyhead[R]{\songti \wuhao 4~实验与评估}
-\section{评估指标与数据集}
-  {\songti\xiaosihao 
-  
-  我们从OAEI\footnote{http://oaei.ontologymatching.org/}(Ontology Alignment Evaluation Initiative)的Anatomy Track中收集生物医学本体，这是一项吸引了世界各地的众多参与者的年度活动，旨在评估本体匹配系统。此外，该活动还为所有参与系统提供统一的评价指标，以准确率，召回率和F 值。}\\
-
-\section{基于多视角的本体匹配模型MuitiOM的评估结果}
-    {\songti\xiaosihao 为了验证MultiOM的有效性，我们使用Python借助TensorFlow\footnote{https://www.tensorflow.org/}（一种非常流行的深度学习框架）来实现我们的方法。采用OWLAPI\footnote{http://owlapi.sourceforge.net/}（用于管理OWL本体的工具）本体解析工具来获得本体信息。实验是在具有64GB内存和TiTAN XP GPU的Intel Xeon E5-2630 V4 CPU的个人工作站上进行的。我们的方法12可以与数据集和结果一起下载。}\\
-\subsection{实验设置}
-{\songti\xiaosihao 我们选择几种策略来构建基准值以验证我们模型的有效性。以下是我们实验策略的构造细节，这里
-
-\indent -StringEquiv：基于本体中实体名称的字符串等价的基础匹配器。
-
-\indent -StringEquiv+Normalization(StringEquiv-N)：先对概念规范化，在进行StringEquiv匹配。
-
-\indent -StringEquiv+Synonym(StringEquiv-S)：通过同义词典扩展了概念同义词，在进行StringEquiv匹配。
-
-\indent -StringEquiv+Synonym+Reference\_Ontology(StringEquiv-SR)：在StringEquiv-S基础上，引入第三方本体实现概念的映射。
-
-\indent -StringEquiv+Synonym+Normalization(StringEquiv-NS)：通过同义词典扩展概念同义词,再进行StringEquiv-N匹配。
-
-\indent -StringEquiv+Normalization+Synonym+Reference\_Ontology(StringEquiv-NSR)：对概念的字符串表示进行规范化后，进行StringEquiv-SR匹配。
-
-\indent MultiOM训练时，我们使用随机梯度下降（SGD）作为优化方法，超参数的配置如下所示：概念和矩阵的维度设置为${\rm{d=\{ 50,100\}}}$和$ {{\rm{d}}_M}{\rm{ = }}\{ {\rm{50}} \times {\rm{50}},{\rm{100}} \times {\rm{100}}\}$。SGD的批次数设置为${\rm{Nbatch=\{ 5,10}},20,50\}$。学习率$r$ 可选参数有{0.01,0.02,0.001} 和对于每个正例，负采样率可选的有{1,3,5,10}。训练的轮数（epoch）设置为1000。在基于上下文模块中，本体概念中单词向量表示主要来自文献\cite{}的链接\footnote{https://doi.org/10.5281/zenodo.1173936}，其维数设置为200。 对于一些没有向量表示的单词，我们将其随机初始化，并满足${\left|{\left|{{t_{1i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$和${\left|{\left|{{t_{2i}}}\right|}\right|_2}{\rm{ }} \le {\rm{ }}1$。 在外部资源视角的模块中，我们使用TransE\cite{}，ConvE\cite{}和预训练函数7 初始化第三方本体中概念的向量表示。在损失函数7中将$a$设置为{0.01,0.05,0.10}，以控制概念向量的语义距离。对于负采样策略，我们利用本体中概念的结构信息。当针对一个概念进行负采样替换时，我们参照这个概念的结构关系信息，根据剩余概念与该概念的结构关系进行替换。负采样替换时，与该概念存在“disjointwith”关系的概念优先级最高，并且排除与概念存在“SubClassOf”关系和“PartOF”关系的概念。最后，通过多视角的组合匹配策略生成MultiOM最终匹配结果，并将相关阈值设置为${\delta _1} = 0.8$，${\delta _2} = 0.95$, ${\delta _1} = 0.65$, ${\delta _4} = 0.3$。
-为突出我们提出的负采样的效果，在模块标签或合并标签上添加符号“-”表示该模块未配备针对结构关系量身定制的负采样。}\\
-\subsection{预测结果与分析}
-{\songti\xiaosihao 表\ref{tab:multiom}列出了MultiOM与各种基准值的匹配结果。我们观察到，合并这些策略可以提升匹配数量。尽管稍微降低了匹配的准确率，但总体上也可以提高召回率和F值。相对而言，MultiOM进一步提高了比对的召回率和F值，因为利用了结构信息，进一步改进概念的向量表示可以获取更多相似的概念并发现更多潜在的匹配，特别是，MultiOM的性能优于MultiOM-，主要原因是采用结构关系有助于区分概念的向量表示。
-
-\begin{table}[!h]
-\centering
-\includegraphics[scale=0.6]{result1.png}
-\caption{MultiOM与基准方法的比较}
-\label{tab:multiom}
-\end{table}
-
-\indent 表2展示了具有不同视角的预训练模型进行组合后效果的比较。总体而言，合并更多的不同视角模型的匹配结果，匹配效果会更好。对于词法视图模块，就F1 度量而言，软化的TF-IDF（表示为OM-L）比原始TF-IDF更好，这是因为表示令牌的连续向量比用于计算概念相似性的单个字符串可以提供更多的语义信息。对于资源视图嵌入模块（称为OM-R），ConvE和我们的预训练功能优于随机初始化，因为它们两者都可以利用结构关系在语义空间中采用概念的矢量表示。但是，与功能7花费20 分钟相比，ConvE花了将近24个小时来获得概念的向量表示。请注意，TransE不适合预训练概念的矢量表示。我们分析了本体的稀疏结构关系及其简化的得分函数限制了它的能力。总体而言，我们观察到在嵌入视图模块中使用新的负采样策略（即OM-S，OM-RS18 19，MultiOM）有助于进一步提高比对的精度和F1 量度的质量。
-表3指出了不同的嵌入视图模块是相互补充的。由于OM-L可以获得比其他映射更多的映射，因此与OM-S，OM-R及其合并案例相比，它可以发现更多正确的映射。
-表3：在每个嵌入视图模块中发现的外部正确映射
-表4列出了MultiOM与基于特征工程的OAEI2018顶级系统和基于表示学习的SCBOW + DAE（O）的比较。它表明，就F1-measure而言，MultiOM的初步结果可以与几种有前途的匹配系统（例如FCAMapX和SANOM）竞争。但是，与最佳系统（例如AML和SCBOW + DAE（O））相比，仍然存在差距。我们分析了基于词法的模块和简化的组合策略可能成为MultiOM的主要瓶颈。得益于叙词表（例如uMlS）和优化的组合策略，大多数排名靠前的系统都能获得更好的OM任务性能。另外，大多数系统（例如AML，LogMap）使用对齐调试技术，这有助于进一步提高对齐质量。但是我们在当前版本中没有采用这些技术。我们将这些问题留在未来的工作中。
-5结论与未来工作
-在本文中，我们提出了一种基于多视图嵌入技术的替代OM框架，其中基于交叉视图设计了不同的损失函数
-
-}\\
-\section{基于多视角的生物医学本体匹配模型--MuitiOM的评估结果}
-    {\songti\xiaosihao 待完善}\\
-    \subsection{实验设置}
-        {\songti\xiaosihao 待完善}\\
-    \subsection{本体匹配结果与分析}
-        {\songti\xiaosihao 待完善}\\
-\section{基于BERT模型和HORD算法对MuitiOM的改进的评估结果}
-    {\songti\xiaosihao 待完善}\\
-    \subsection{实验设置}
-        {\songti\xiaosihao 待完善}\\
-    \subsection{本体匹配结果与分析}
-        {\songti\xiaosihao 待完善}\\
+ \chapter{结论及展望}
+ \thispagestyle{fancy} \fancyhead[L]{\songti \wuhao
+重庆师范大学硕士学位论文}\fancyhead[R]{\songti \wuhao 5~结论及展望}
+{\songti\xiaosihao }
+\\
+\section{本文工作总结}
+{\songti\xiaosihao 本文针对现有基于深度学习的本体匹配方法存在的两个问题，现有方法值利用了本体概念的字面含义，而未对本体的结构信息进行有效利用，从而影响了本体匹配的效果；现有方法中的表示学习方法获得的概念表示受到参数的影响，进而影响匹配的效果。未解决以上问题，本文采用多视角的建模思想，有效利用本体的结构信息提出了MOM 模型，同时，也利用HORD算法实现了对MOM中表示学习模型的超参数优化，进一步提升本体匹配的效果，并且，本文提出的方法与现有方法相比，也取得了非常好的效果。}
+\\
+\section{未来工作展望}
+{\songti\xiaosihao 虽然本文提出的方法可以一定程度上解决现有方法的两个问题，也可以取得比较好的效果，但对于现有方法的两个问题，本文只是在一定程度上克服了，但对于结构较深的本体，可如何选择合适的本体的结构信息，也是有待解决的问题之一。同时，表示学习的超参数调节，本文采用HORD算法进行了参数由优化，但只是对其中三个参数的优化，而如何针对表示学习类模型，提出针对性的的，效率较高的超参数优化算法，也是未来值得继续开展研究的方向。}
 
 \ifx\allfiles\undefined
 \end{document}
