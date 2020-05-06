@@ -1,33 +1,39 @@
 \documentclass[a4paper,12.15pt,CJK,oneside]{cctbook}
 \def\allfiles{}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{titlesec,cctspace}
+
+\usepackage{CJK}
 \usepackage{cite}
-\usepackage{enumerate}
-\usepackage[numbers,sort&compress]{natbib}
+\usepackage{float}
+\usepackage{times}
+\usepackage{color}
+\usepackage{ccmap}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
-\usepackage{dsfont, amsthm, amssymb}
-\usepackage{times}
+\usepackage{graphicx}
 \usepackage{tabularx}
-\usepackage{longtable, booktabs}
-\usepackage{color}
+\usepackage{fancyhdr}
+ \usepackage{geometry}
+\usepackage{enumerate}
 \usepackage{algorithm}
 \usepackage{algorithmic}
-
-
-
+\usepackage[latin1]{inputenc}
+\usepackage{titlesec,cctspace}
+\usepackage{longtable, booktabs}
+\usepackage{dsfont, amsthm, amssymb}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{amsthm,amsmath,amssymb,fancyhdr,color,graphicx}
+\floatname{algorithm}{算法}
+\renewcommand{\algorithmicrequire}{\textbf{输入:}}
+\renewcommand{\algorithmicensure}{\textbf{输出:}}
 \setlength{\textheight}{24true cm} \setlength{\textwidth}{17true cm}
 \oddsidemargin -10pt \evensidemargin -10pt \topmargin -5pt \footskip 0.8 cm
-\setlength{\parindent}{2\ccwd}%自然段第一行缩进量
+\setlength{\parindent}{2\ccwd}                                      %自然段第一行缩进量
  \setlength{\parskip}{0pt}
- \usepackage{geometry}
  \headsep -1 cm \topmargin -25 pt \textheight 26 cm \textwidth 16cm
  \oddsidemargin 23pt\evensidemargin 23pt
 
-\renewcommand{\baselinestretch}{1.3}%行间距
+\renewcommand{\baselinestretch}{1.3}                                %行间距
 \renewcommand \theequation{\thesection.\arabic{equation}}
 \newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}     % 字号设置
 \newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont} % 字号设置
@@ -44,9 +50,8 @@
 \newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    % 字号设置
 \renewcommand{\chaptername}{~\thechapter~}
 \renewcommand{\sectionname}{~\thesection~}
-\renewcommand{\subsectionname}{~\thesubsection~}   % 使得每一小节下面的编号无间隙
-\usepackage{fancyhdr}
-\usepackage{amsthm,amsmath,amssymb,fancyhdr,color,graphicx}
+\renewcommand{\subsectionname}{~\thesubsection~}                    % 使得每一小节下面的编号无间隙
+
 \newcommand{\hh}{\hspace*{24 pt}}
 \newcommand{\h}{\hspace*{6 pt}}
 \newcommand{\ho}{\hspace*{3 pt}}
@@ -70,7 +75,7 @@
 \renewcommand{\proofname}{\textbf{证明}}
 \newtheoremstyle{mystyle}{3pt}{3pt}{\songti}{0cm}{\heiti}{}{1em}{}
 \theoremstyle{mystyle}
-\newtheorem{theorem}{\indent 定理}[section]   % 使得定理首行缩进
+\newtheorem{theorem}{\indent 定理}[section]                         % 使得定理首行缩进
 \newtheorem{example}{\indent 例}[section]
 \newtheorem{remark}{\indent 注}[section]
 \newtheorem{lemma}{\indent 引理}[section]
@@ -104,8 +109,9 @@
 
 
 \makeatother
-\includeonly{chapter1,chapter2,chapter3,chapter4,chapter5,chapter6}
+\includeonly{chapter1,chapter2,chapter3,chapter4,chapter5}
  \begin{document}
+ \begin{CJK*}{GBK}{song}
 \sloppy \baselineskip 20 pt  \pagestyle{fancy}
 \fancyhead{}
 \thispagestyle{fancy} \fancyhead[OC]{\songti \small}
@@ -153,7 +159,7 @@
  \vskip 4cm
  \begin{eqnarray*}
  % \nonumber to remove numbering (before each equation)
- & &\text{\sanhao Candidate：DUAN Xuxiang} \\
+ & &\text{\sanhao Candidate：Duan Xuxiang} \\
  & &\text{\sanhao Supervisor：Professor Wu Zhiyou} \\
  & &\text{\sanhao Major：Computational Mathematics} \\
  & &\text{\sanhao College：School of Mathematical Sciences}
@@ -183,19 +189,19 @@
 \renewcommand{\baselinestretch}{1}
  \centerline{\bf\Large\heiti\zihao{3} 基于深度学习的本体匹配方法及其优化算法研究}
  \vskip 1.5cm \centerline{\heiti \sanhao 摘\quad 要} \vskip 1cm
- {\songti\xiaosihao 自1989年Tim Berners Lee发明万维网后，人类便真正进入了信息爆炸式增长的时代。1.0时期的万维网由网页互相链接而成，但万维网中的网页内容都是通过文档呈现的。在万维网1.0时期，计算机将网页信息呈现给用户，但信息本身所包含的语义无法转化为计算机可理解的计算机语言，方便计算机进行理解，处理。为解决万维网1.0中的存在的以上问题，万维网之父Tim Berners Lee在2001年提出语义网，语义网是一个能够让计算机理解互联网中数据的语义信息，以及数据之间的逻辑关系，使得网页中的数据实现互相关联的数据智能网络。为了构建语义网，国际万维网组织（W3C）在2007年发起了开放链接数据项目，该项目旨在将推动万维网由网页互联走向成知识互联，也有助于推动语义网的发展。项目发起后，研究者们可以对语义数据进行关联和独立发布，从而形成了众多的知识库。本体可以看作知识库的结构框架，定义了概念与概念之间层次关系，形式化的定义了同一领域内共同认可的知识。由于知识库可以分布式的发布到万维网中，多个人对同一或相关联的领域知识构建的不同知识库，在发布数据时，个人的差异会导致对同一个概念命名不相同，取值范围不同等问题，即是本体的异构问题。本体异构问题，在两个本体合并过程中，会导致语义网中许多知识互相关联的缺失并且产生冗余信息。
- 
+ {\songti\xiaosihao 自1989年Tim Berners Lee发明万维网后，人类便真正进入了信息爆炸式增长的时代。1.0时期的万维网由网页互相链接而成，但万维网中的网页内容都是通过文档呈现的。在万维网1.0时期，计算机将网页信息呈现给用户，但信息本身所包含的语义无法转化为计算机可理解的计算机语言，方便计算机进行理解，处理。为解决万维网1.0中的存在的以上问题，万维网之父Tim Berners Lee在2001年提出语义网，语义网是一个能够让计算机理解互联网中数据的语义信息，以及数据之间的逻辑关系，使得网页中的数据实现互相关联的数据智能网络。为了构建语义网，国际万维网组织(W3C)在2007年发起了开放链接数据项目，该项目旨在将推动万维网由网页互联走向成知识互联，也有助于推动语义网的发展。项目发起后，研究者们可以对语义数据进行关联和独立发布，从而形成了众多的知识库。本体可以看作知识库的结构框架，定义了概念与概念之间层次关系，形式化地定义了同一领域内共同认可的知识。由于知识库可以分布式地发布到万维网中，多个人对同一或相关联的领域知识构建的不同知识库，在发布数据时，个人的差异会导致对同一个概念命名不相同，取值范围不同等问题，即是本体的异构问题。本体异构问题，在两个本体合并过程中，会导致语义网中许多知识互相关联的缺失并且产生冗余信息。
+
  \indent 为解决本体异构的问题，自20世纪90年代末开始，国内外学者便开始了对本体匹配的研究，历经二十多年的积累，已有大量针对本体匹配的方法。这些方法大致可分为基于统计学习的方法和基于深度学习的方法。
- 
+
  \indent 基于统计的方法需要借助人工构建特征，而该工作通常比较耗时且难以找到合适的特征；现有的基于深度学习的本体匹配方法克服了基于统计学习类方法中人工构建特征的困难，而忽略了本体本身的结构信息，本体本身的结构信息也包含了大量的语义，会直接影响本体匹配方法的性能。另一方面，基于深度学习的本体匹配方法采用的随机向量或者通过文本预训练模型得到的概念向量表示通常不符合概念在知识图谱中的表示。在知识图谱表示模型中，概念或者关系的表示非常依赖模型的参数。如何在知识图谱表示学习中找到更好的参数从而改善待匹配概念的表示并提高本体匹配的效果也是需要克服的问题。
- 
+
  \indent 针对现有基于深度学习的方法存在的两个问题，本文提出了一个新的本体匹配模型MOMWH，MOMWH利用多视角的方法来提取概念信息，从概念的文本、概念在多个本体间的映射和概念所处的本体本身三个视角来计算概念的表示，从多视角不同的维度对待匹配的概念对进行计算，进而提升了本体匹配的性能，也有效减少人工对特征进行筛选的成本。其次为解决如何找到更好参数得到概念向量表示的问题。本体匹配的性能，为解决该问题，本文首次将黑箱优化和知识图谱表示学习进行结合。通过HORD算法自动调节多个表示学习模型的参数，进一步使得多视角表示学习模型可以学习更好的特征。最后，通过在MA-NCI-FMA与MA-FMA-SNOMED两个医学本体匹配数据集上进行的多个实验，本文设计的方法超过了现有的研究，也在一定程度上解决了现有方法的问题。
 
 
 
 
  \vskip 2cm {\heiti\xiaosihao
-\noindent 关键词：} {\songti\xiaosihao 本体匹配，多视角学习，表示学习，HORD算法}
+\noindent 关键词：} {\songti\xiaosihao 本体匹配，多视角学习，表示学习，黑箱优化，HORD算法}
 \newpage
  \thispagestyle{fancy} \fancyhead[L]{\songti \small
  重庆师范大学硕士学位论文} \fancyhead[R]{\songti \small  英文摘要}
@@ -209,15 +215,18 @@
   \centerline{\bf\sanhao   based on deep learning}
  \vskip 1.5cm
  \centerline{\bf\sanhao ABSTRACT} \vskip 1cm {\xiaosihao
+Since the invention of the World Wide Web(WWW) by Tim Berners Lee in 1989, human beings have really entered into the era of explosive growth of information. During the 1.0 of WWW, web pages are linked to each other, forming WWW.  However, the content of web pages in the WWW are presented through documents. In the period of WWW 1.0, the computer presents the web information to the users, but the information contains some semantics, the semantics cannot be converted into computer language, therefore it can be comprehended by the computer for the convenience of its comprehending and processing. In order to solve the above problems in the WWW 1.0, Tim Berners Lee, the father of the WWW, put forward the Semantic Web in 2001, which is a data intelligent network that enables computers to mutually understand the semantic information of the data in the Internet and the logical relationship between the data, thus the data in the web pages can be interconnected. For the sake of constructing the semantic web, the international WWW Organization(W3C) launches the linked open data project in 2007, which aims to promote WWW from web page linking to knowledge linking, conducive to the development of the Semantic Web. After the project was launched, the researchers could associate and publish semantic data independently, thus forming a large number of knowledge bases. Ontology can be regarded as the structure framework of knowledge base, which defines the hierarchical relationship between concepts, and formalize the knowledge jointly recognized within the same domain. Since knowledge base can be distributed to the WWW, many people build different knowledge base for the same or related domain knowledge. When publishing data, the difference of individuals will lead to different naming of the same concept, different value range, etc. , which is the heterogeneous problem of ontology. In the process of ontology merging, the problem of ontology heterogeneity will lead to the lack of correlation and the generation of redundant information in the Semantic Web.
 
+\indent For the sake of resolving the problem of ontology heterogeneity, since the end of 1990s, scholars at home and abroad began to study ontology matching. After more than 20 years of accumulation, there are a lot of methods in allusion to ontology matching. These methods can be roughly divided into the methods on the basis of statistical learning method and depth learning.
 
-} \vskip 1cm
-\noindent{\bf \sanhao  Keywords:} {\sihao  }
+\indent The methods on the basis of statistical learning need to build features manually, which is usually time-consuming and difficult to find suitable features; The existing ontology matching method based on deep learning overcomes the difficulty of Artificial feature Engineering in the method based on statistical learning, but ignores the structure information in ontology. the structure information in ontology contains a lot of semantics, so will directly affect the performance of ontology matching method. On the other hand, the random vectors used in ontology matching method based on deep learning or the concept vectors obtained from text pre-training model usually do not conform to the representation of concepts in knowledge graph. In the knowledge graph representation model, the representation of concepts or relationships depends on the parameters of the model. How to find better parameters in representation learning of knowledge graph to improve the representation of matching concepts and improve the effect of ontology matching is also a problem to be dealt with.
+
+\indent In this paper, a new ontology matching model, MOMWH, is proposed to solve the two problems of existing methods based on deep learning, which uses the multi-view method to extract concept information, calculates the representation of concept from three perspectives: the text of concept, the mapping of concept among multiple bodies and the body itself where the concept is located, and counts the matching concept pairs from different dimensions of multiple perspectives, thus improving the performance of ontology matching, and effectively reducing the cost of manual feature selection. The second is to resolve the problem of how to find better parameters to get the concept vector representation. In order to solve the problem of the ontology matching performance, this paper combines black box optimization and representation learning of knowledge graph for the first time. Through HORD algorithm, the parameters of the learning model can be adjusted automatically, thus the multi-view representation learning model can learn better features. In the end, through several experiments conducted on two medical ontology matching datasets, MA-NCI-FMA and MA-FMA-SNOMED, the method designed in this paper exceeds the existing research, and resolves the problems of the existing methods to a certain extent.} \vskip 1cm
+\noindent{\bf \sanhao  Keywords:} {\sihao  ontology matching, multi-view learning, representation learning, black box optimization，HORD algorithm }
 
 
 
 \newpage
-
 \tableofcontents
 \thispagestyle{fancy} \fancyhead[L]{\songti \small
  重庆师范大学硕士学位论文} \fancyhead[R]{\songti \small  目录}
@@ -231,15 +240,52 @@
 \include{chapter3}
 \include{chapter4}
 \include{chapter5}
-\include{chapter6}
 
 \newpage
 
-\thispagestyle{fancy}\fancyhead[L]{\songti\wuhao
-重庆师范大学硕士学位论文}\fancyhead[R]{\songti\wuhao 参考文献}
+\renewcommand{\baselinestretch}{1}
+\addcontentsline{toc}{chapter}{\numberline {参考文献}}
+\thispagestyle{fancy} \fancyhead[L]{\songti \small
+重庆师范大学硕士学位论文} \fancyhead[R]{\songti \small 参考文献}
+\vskip 0.5cm\songti\zihao{-4}
 \bibliographystyle{plain}%
 \bibliography{myfile}
 
+\newpage
+\begin{appendices}
+\renewcommand{\baselinestretch}{1}
+\topskip 35pt\chapter*{\heiti\sanhao 附录：作者攻读硕士学位期间发表论文及科研情况}
+\addcontentsline{toc}{chapter}{\numberline {附录：作者攻读硕士学位期间发表论文及科研情况}}
+\thispagestyle{fancy} \fancyhead[L]{\songti \small
+重庆师范大学硕士学位论文} \fancyhead[R]{\songti \small 附录：作者攻读硕士学位期间发表论文及科研情况}
+\vskip 0.5cm\songti\zihao{-4}
+\renewcommand{\thechapter}{}
+
+\noindent \textbf{发表的论文：}
+
+\noindent [1] G.Li, X.Duan and C.Wu. A New DC Algorithm for Sparse Optimal Scoring Problem[J]. IEEE Access, vol 8, pp 53962-53971, 2020.
+
+\noindent [2] Li,W., Duan,X., Wang,M., Zhang,X., Qi,G. Multi-view Embedding for Biomedical Ontology Matching[C]. In Proceedings of the OM2019@ISWC, 2019.
+\end{appendices}
+\\
+\\
+\noindent \textbf{参与的基金与课题：}
+
+\noindent 1. 机器学习中大规模非凸优化问题的分布式并行算法研究及其应用、国家自然科学基金面上项目、参与、2019； 
+
+\noindent 2. 具有可分结构非凸优化问题的理论与算法研究、参与、重庆市自然科学基金、 2018-2021； 
+
+\noindent 3. DC规划的理论和算法研究及其在机器学习中的应用、参与、 国家自然科学基金面上项目、2018-2022； 
+
+\noindent 4. 机器学习中几类稀疏优化问题的算法研究、参与、重庆市科委、2019-2022； 
+
+\noindent 5. 用于人脸比对的身份证网纹照片修复技术、参与、横向项目、2018.6； 
+
+\noindent 6. 基于RGBD传感器的人脸活体检测研究、参与、 横向项目、2019.4.1； 
+
+\noindent 7. 预测式自动外呼模型构建、参与、 横向项目、2019.6； 
+
+\noindent 8. BERT 预训练模型对问答机器人的效果提升、参与、 横向项目、2019.6；
 
 \newpage
 \renewcommand{\baselinestretch}{1}
@@ -295,6 +341,7 @@
 年 \quad 月 \quad 日\quad }
 
 \backmatter \printindex
+\end{CJK*}
 \end{document}
 
 % ----------------------------------------------------------------
